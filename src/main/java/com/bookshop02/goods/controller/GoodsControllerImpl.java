@@ -32,6 +32,8 @@ public class GoodsControllerImpl extends BaseController implements GoodsControll
 			throws Exception {
 		
 		String viewName = (String)request.getAttribute("viewName");
+		
+		System.out.println("상세페이지 뷰네임 ....?"+viewName);
 		HttpSession session = request.getSession();
 		
 		Map goodsMap = goodsService.goodsDetail(goods_id);
@@ -57,7 +59,7 @@ public class GoodsControllerImpl extends BaseController implements GoodsControll
 			if(quickGoodsList.size()<4) { //미리본 상품 리스트에 상품개수가 세개 이하인 경우
 				for(int i=0; i<quickGoodsList.size(); i++) {
 					GoodsVO _goodsBean = (GoodsVO)quickGoodsList.get(i);
-					if(goods_id.equals(_goodsBean.getGoods_id())) {
+					if(goods_id.equals(Integer.toString(_goodsBean.getGoods_id()))) {
 						already_existed=true;
 						break;
 					}

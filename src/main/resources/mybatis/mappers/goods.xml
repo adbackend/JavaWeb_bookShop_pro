@@ -28,7 +28,7 @@
 		<result property="goods_intro" column="goods_intro" />
 	</resultMap>	
 	
-	<resultMap id="imageResult" type="ImageFileVO">
+	<resultMap id="imageResult" type="imageFileVO">
 	   <result property="goods_id" column="goods_id" />
 	   <result property="fileName" column="fileName" />
 	   <result property="reg_id" column="reg_id" />
@@ -61,7 +61,7 @@
 	</select>
 	
 	<!--상품 상세 이미지 파일 조회  -->
-	<select id="selectGoodsDetailImage" parameterType="String" resultMap="goodsResult">
+	<select id="selectGoodsDetailImage" parameterType="String" resultMap="imageResult">
 		<![CDATA[
 			SELECT * FROM t_goods_detail_image
 				WHERE filetype!='main_image'
