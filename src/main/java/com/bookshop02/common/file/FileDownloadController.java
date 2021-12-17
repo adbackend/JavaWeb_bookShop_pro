@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import net.coobird.thumbnailator.Thumbnails;
+
 @Controller
 public class FileDownloadController {
 	
@@ -57,10 +59,21 @@ public class FileDownloadController {
 							 @RequestParam("fileName") String fileName,
 							 HttpServletResponse response) throws Exception{
 		
+		System.out.println("썸네일 아이디, 파일이름 받냐..?"+goods_id+","+fileName);
 		OutputStream out = response.getOutputStream();
 		
 		String filePath = CURR_IMAGE_REPO_PATH+"\\"+goods_id+"\\"+fileName;
 		
+		File image = new File(filePath);
+		
+		if(image.exists()) {
+			Thumbnails.of(image).size(121, 154).outputFormat("png").toOutputStream(out);
+		}
+		
+		byte[] buffer = new byte[1024*8];
+		
+		out.write(buffer);
+		out.close();
 	}
 
 }

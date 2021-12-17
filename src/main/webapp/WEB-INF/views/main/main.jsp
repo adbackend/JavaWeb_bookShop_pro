@@ -24,7 +24,8 @@
 			<img class="link" src="${contextPath}/resources/image/1px.gif"/>
 			</a>
 			
-			<img width="121" height="154" src="${contextPath}/thumbnails.do?goods_id=${goods_id}$fileName=${item.goods_fileName}">
+			<img width="121" height="154" src="${contextPath}/thumbnails.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
+			
 			<div class="title">${item.goods_title}</div>
 			<div class="price">
 				<fmt:formatNumber value="${item.goods_price}" type="number" var="goods_price" />
@@ -83,6 +84,8 @@
 					<img class="link" src="${contextPath}/resources/image/1px.gif"/>
 				</a>
 				<img width="121" height="154" src="${contextPath}/thumbnails.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
+				<div class="title">${item.goods_title}</div>
+				
 				<div class="price">
 					<fmt:formatNumber value="${item.goods_price}" type="number" var="goods_price"/>
 						${goods_price}원

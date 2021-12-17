@@ -68,7 +68,34 @@
 				AND goods_id=#{goods_id}
 		]]>
 	</select>
+	
+	<!-- 키워드 검색 -->
 
+	<!-- 검색창에서 입력한 키워드를 가져와 그 키워드가 포함된 상품 제목을 조회 -->
+	<select id="selectKeywordSearch" parameterType="String" resultType="String">
+		<![CDATA[
+			SELECT goods_title FROM t_shopping_goods
+				WHERE goods_title LIKE '%' ||#{keyword}|| '%'
+					ORDER BY goods_creDate DESC
+		]]>
+	</select>
+
+
+
+	<!-- 검색창에 입력한 단어를 가져와 그 단어가 포함된 상품 제목으로 조회 -->
+	<select id="selectGoodsBySearchWord" parameterType="String" resultMap="goodsResult">
+		<![CDATA[
+			SELECT g.*, d.fileName FROM t_shopping_goods g, t_goods_detail_image d
+				WHERE g.goods_id=d.goods_id
+					AND d.filetype='main_image'
+					AND g.goods_title LIKE '%' ||#{searchWord}|| '%'
+					ORDER BY g.goods_creDate DESC
+		]]>
+	</select>
+	
+	
+	
+	
 </mapper>
 
 

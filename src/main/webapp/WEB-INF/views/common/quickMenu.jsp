@@ -8,39 +8,38 @@
 
 	var array_index=0;
 	var SERVER_URL="${contextPath}/thumbnails.do";
+	
+//다음 버튼
+	function fn_show_next_goods(){
+		var img_sticky=document.getElementById("img_sticky");
+		var cur_goods_num=document.getElementById("cur_goods_num");
+		var _h_goods_id=document.frm_sticky.h_goods_id;
+		var _h_goods_fileName=document.frm_sticky.h_goods_fileName;
+		if(array_index <_h_goods_id.length-1)
+			array_index++;
+		 	
+		var goods_id=_h_goods_id[array_index].value;
+		var fileName=_h_goods_fileName[array_index].value;
+		img_sticky.src=SERVER_URL+"?goods_id="+goods_id+"&fileName="+fileName;
+		cur_goods_num.innerHTML=array_index+1;
+	}
 
 //이전
-function fn_show_previous_goods(){
-	var img_sticky=document.getElemetById("img_sticky");
-	var cur_goods_num=document.getElementById("cur_goods_num");
-	var _h_goods_id=document.frm_sticky.h_goods_id;
-	var _h_goods_fileName=document.frm_sticky.h_goods_fileName;
-	
-	if(array_index>0){
-		array_index--;
-	}
-	
-	var goods_id = _h_goods_id[array_index].value;
-	var fileName = _h_goods_fileName[array_index].value;
-	img_sticky.src=SERVER_URL+"?goods_id"+goods_id+"&fileName="+fileName;
-	cur_goods_num.innerHTML=array_index+1;
-}
-
-//다음 버튼
-function fn_show_next_goods(){
+ function fn_show_previous_goods(){
 	var img_sticky=document.getElementById("img_sticky");
 	var cur_goods_num=document.getElementById("cur_goods_num");
 	var _h_goods_id=document.frm_sticky.h_goods_id;
 	var _h_goods_fileName=document.frm_sticky.h_goods_fileName;
-	if(array_index < _h_goodsd_id.length-1){
-		array_index++;
-	}
 	
-	var goods_id = _h_goods_id[array_index].value;
-	var fileName = _h_goods_fileName[array_index].value;
-	img_sticky.src=SERVER_URL+"?goods_id"+goods_id+"&fileName"+fileName;
+	if(array_index >0)
+		array_index--;
+	
+	var goods_id=_h_goods_id[array_index].value;
+	var fileName=_h_goods_fileName[array_index].value;
+	img_sticky.src=SERVER_URL+"?goods_id="+goods_id+"&fileName="+fileName;
 	cur_goods_num.innerHTML=array_index+1;
 }
+
 
 
 function goodsDetail(){
@@ -116,7 +115,6 @@ function goodsDetail(){
 				</c:choose>
 			</ul>
 		</div>
-	</div>
 	
 	
 	<div>
@@ -125,9 +123,10 @@ function goodsDetail(){
 				<h5>&nbsp;&nbsp;&nbsp;&nbsp; 0/0 &nbsp;</h5>
 			</c:when>
 			<c:otherwise>
-				<h5><a href="javascript:fn_show_previous_goods();">이전</a>&nbsp;<span id="cur_goods_num">1</span>/${quickGoodsListNum} &nbsp;<a href="javascript:fn_show_next_goods();">다음</a></h5>
+				<h5><a  href='javascript:fn_show_previous_goods();'> 이전 </a> &nbsp;  <span id="cur_goods_num">1</span>/${quickGoodsListNum}  &nbsp; <a href='javascript:fn_show_next_goods();'> 다음 </a> </h5>
 			</c:otherwise>
 		</c:choose>
+	</div>
 	</div>
 	
 </body>

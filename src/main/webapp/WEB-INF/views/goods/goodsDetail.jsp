@@ -35,6 +35,10 @@ function fn_order_each_goods()
 	<div id="goods_image">
 		<figure>
 			<img alt="HTML5 & amp; CSS3" src="${contextPath}/thumbnails.do?goods_id=${goods.goods_id}&fileName=${goods.goods_fileName}"/>
+			<script>
+				console.log(${goods.goods_id});
+				console.log(${goods.goods_fileName});
+			</script>
 		</figure>
 	</div>
 	
