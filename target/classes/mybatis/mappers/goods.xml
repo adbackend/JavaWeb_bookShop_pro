@@ -92,7 +92,7 @@
 					ORDER BY g.goods_creDate DESC
 		]]>
 	</select>
-	
+	<!-- 2 -->
 	
 	
 	
