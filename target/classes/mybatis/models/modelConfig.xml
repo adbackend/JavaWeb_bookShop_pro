@@ -6,6 +6,7 @@
   <typeAliases>
     <typeAlias type="com.bookshop02.goods.vo.GoodsVO" alias="goodsVO" />
     <typeAlias type="com.bookshop02.goods.vo.ImageFileVO" alias="imageFileVO" />
+    <typeAlias type="com.bookshop02.member.vo.MemberVO" alias="MemberVO"/>
 
   </typeAliases>
 </configuration>

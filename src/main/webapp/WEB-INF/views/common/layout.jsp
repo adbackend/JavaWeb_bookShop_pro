@@ -5,6 +5,7 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
+<c:set var="goods" value="${goodsMap.goodsVO}"/>
 <%
   request.setCharacterEncoding("utf-8");
 %>
@@ -40,7 +41,8 @@
 		});
 	});
 </script>
-	<title><tiles:insertAttribute name="title" /></title>
+<%-- 	<title><tiles:insertAttribute name="title" /></title> --%>
+	<title>${goods.goods_title}</title>
 	
 </head>
 <body>
