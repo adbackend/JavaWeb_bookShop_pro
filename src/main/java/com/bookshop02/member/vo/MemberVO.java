@@ -1,5 +1,6 @@
 package com.bookshop02.member.vo;
 
+import org.springframework.stereotype.Component;
 
 /**
   * @FileName : MemberVO.java
@@ -7,6 +8,8 @@ package com.bookshop02.member.vo;
   * @Author : 최유정
   * @Description : 24개 컬럼
   */
+
+@Component("memberVO")
 public class MemberVO {
 
 	private String member_id; //회원 아이디

@@ -6,12 +6,25 @@
 <!DOCTYPE html>
 <html>
 <head>
+<c:if test="${not empty message}">
+	<script>
+		window.onload=function(){
+			result();
+		}
+		
+		function result(){
+			alert("아이디나 비밀번호가 틀립니다.");
+		}
+	</script>
+	
+</c:if>
+
 <meta charset="UTF-8">
 </head>
 <body>
 	<h3>회원 로그인창</h3>
 	<div id="detail_table">
-		<form action="${contextPath}/member.login.do" method="post">
+		<form action="${contextPath}/member/login.do" method="post">
 			<table>
 				<tbody>
 					<tr class="dot_line">

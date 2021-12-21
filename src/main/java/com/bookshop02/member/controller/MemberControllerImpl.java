@@ -18,6 +18,7 @@ import com.bookshop02.member.service.MemberService;
 import com.bookshop02.member.vo.MemberVO;
 
 @Controller("memberController")
+@RequestMapping(value="/member")
 public class MemberControllerImpl extends BaseController implements MemberController{
 	
 	@Autowired
@@ -32,12 +33,14 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 	public ModelAndView login(@RequestParam Map<String, String> loginMap, 
 						HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		System.out.println("login.do 컨트롤러에 오냐...?");
 		ModelAndView mav = new ModelAndView();
 		
 		memberVO = memberService.login(loginMap);
 		
 		if(memberVO != null && memberVO.getMember_id()!=null) {
 			
+			System.out.println("memberVO존재..?"+memberVO.getMember_id());
 			HttpSession session = request.getSession();
 			
 			session=request.getSession();
@@ -45,6 +48,14 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 			session.setAttribute("memberInfo", memberVO);
 			
 			String action=(String)session.getAttribute("action");
+			System.out.println("action값...?"+action);
+			
+			//상품주문 과정에서 로그인했으면 로그인 후 다시 주문화면으로 진행하고 그외에는 메인페이지 표시
+			if(action != null && action.equals("/order/orderEachGoods.do")) {
+				mav.setViewName("forward:"+action);
+			}else {
+				mav.setViewName("redirect:/main/main.do");
+			}
 			
 		}else {
 			String message = "아이디나 비밀번호가 일치하지않습니다. 다시로그인해주세요";
@@ -54,6 +65,7 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 		return mav;
 	}
 	
+	//로그아웃 처리
 	@Override
 	@RequestMapping(value="/logout.do", method=RequestMethod.GET)
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception{

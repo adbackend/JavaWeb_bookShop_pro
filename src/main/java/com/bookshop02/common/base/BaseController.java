@@ -13,11 +13,15 @@ public abstract class BaseController {
 	
 	
 
-	@RequestMapping(value="/*.do", method= {RequestMethod.POST, RequestMethod.GET})
+	//구체적으로 일치하는 요청명이 우선입니다. 책 앞부분 url pattern부분을 복습
+	@RequestMapping(value="/*.do", method={RequestMethod.POST, RequestMethod.GET})
 	protected ModelAndView viewForm(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		
 		String viewName = (String)request.getAttribute("viewName");
-		ModelAndView mav = new ModelAndView();
+		
+		System.out.println("뷰네임은...?"+viewName);
+		
+		ModelAndView mav = new ModelAndView(viewName);
 		
 		return mav;
 	}
