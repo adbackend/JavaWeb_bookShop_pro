@@ -60,14 +60,103 @@
     
     //아이디 중복체크
     function fn_overlapped(){
+    	var _id = $("#_member_id").val();
     	
+    	if(_id==''){
+    		alert("ID를 입력하세요");
+    		return;
+    	}
+    	
+    	if((_id<"0" || _id>"9") && (_id<"A" || _id>"Z") && (_id<"a" || _id>"z") ){
+    		alert("한글 및 특수 문자는 아이디로 사용할 수 없습니다.");
+    		return ;
+    	}
+    	
+    	
+    	$.ajax({
+    		type:"post",
+    		async:false,
+    		url:"${contextPath}/member/overlapped.do",
+    		dataType:"text",
+    		data:{id:_id},
+    		success:function(data,textStatus){
+    			
+    			if(data=='false'){
+
+    				alert("사용할 수 있는 ID입니다.");
+	    			$("btnOverlapped").prop("disabled",true);
+	    			$("_member_id").prop("disabled",true);
+	    			$("_member_id").val(_id);
+    				
+    			}else{
+    				alert("사용할 수 없는 ID입니다.");
+    			}
+    		},
+    		error:function(data,textStatus){
+    			alert("에러가 발생했습니다.");
+    		},
+    		complete:function(data,textStatus){
+//     			alert("작업을 완료했습니다.");
+    		}
+    	}); //end ajax
+    	
+    }
+    
+    //이메일
+//     function email_change(email){
+//     	if(email=="1")){ //직접입력
+//     		document.getElementById("email2").style.display="block";
+//     		document.frm.email2.value="";
+//     	}else{
+//     		document.getElemetById("email2").style.display="none";
+//     		document.frm.email2.value=email;
+//     	}
+//     }
+    
+    function password_check(){
+
+	var member_pw = document.frm.member_pw.value;
+	var member_pw2 = document.frm.member_pw2.value;
+	
+	if(member_pw.length<4 || member_pw2.length >16) { //비밀번호는 4~16자리
+		alert("비밀번호는 4~16자리만 이용가능 합니다.");
+		document.getElementById("member_pw").value=document.getElementById("member_pw2").value='';
+		document.getElementById("same").innerHTML='';
+	}
+	
+	if(document.getElementById("member_pw").value!='' && document.getElementById("member_pw2").value!=''){
+		if(document.getElementById("member_pw").value==document.getElementById("member_pw2").value){
+			document.getElementById("same").innerHTML="비밀번호 일치";
+			document.getElementById("same").style.color="blue";
+		}else{
+			document.getElementById("same").innerHTML="비밀번호 불일치";
+			document.getElementById("same").style.color="red";
+			document.frm.member_pw2.value=""; //초기화
+		}
+	}
+}
+
+    
+    
+    
+    //이메일 직접입력, 선택
+    function email_change(email){
+    	alert("이메일");
+    	if(email=="1"){
+    		document.frm.email2.value=""; //직접입력칸 초기화
+    		document.frm.email2.disabled=false;
+    	}else{
+    		
+    		document.frm.email2.value=email;
+    		document.frm.email2.disabled=true;
+    	}
     }
     
 </script>
 </head>
 <body>
 	<h3>필수 입력사항</h3>
-	<form action="${contextPath}/member/addMember.do" method="post">
+	<form  name="frm" action="${contextPath}/member/addMember.do" method="post">
 		<div id="detail_table">
 			<table>
 				<tbody>
@@ -76,10 +165,24 @@
 						<td>
 							<input type="text" name="_member_id" id="_member_id" size="20"/>
 							<input type="hidden" name="member_id" id="member_id"/>
-							
 							<input type="button" id="btnOverlapped" value="중복체크" onClick="fn_overlapped()"/>
 						</td>
 					</tr>
+					
+					<tr class="dot_line">
+						<td class="fixed_join">비밀번호</td>
+						<td><input type="password" name="member_pw" id="member_pw" size="20" onChange="password_check()"/></td>
+					</tr>
+
+					<tr class="dot_line">
+						<td class="fixed_join">비밀번호 확인</td>
+						<td>
+							<input type="password" name="member_pw2"  id="member_pw2" size="20"/>
+							<span id="same"></span>
+						</td>
+					</tr>
+					
+					
 					
 					<tr class="dot_line">
 						<td class="fixed_join">이름</td>
@@ -200,9 +303,12 @@
 					<tr class="dot_line">
 						<td class="fixed_join">이메일<br>(e-mail)</td>
 						<td>
-							<input type="text" name="email1" size="10px"/> @ <input type="text" name="email2" size="10px"/>
-								<select name="email2" onChange="" title="직접입력">
-									<option value="non">직접입력</option>
+							<input type="text" name="email1" size="10px"/> 
+							@ <input type="text" name="email2" size="10px"/>
+							
+								<select name="emailAddr" id="email_select" onChange="email_change(this.value)" >
+									<option value="" selected>==이메일 선택==</option>
+									<option value="1">직접입력</option>
 									<option value="hanmail.net">hanmail.net</option>
 									<option value="naver.com">naver.com</option>
 									<option value="yahoo.co.kr">yahoo.co.kr</option>

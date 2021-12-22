@@ -75,7 +75,7 @@ function goodsDetail(){
 	<div id="sticky">
 		<ul>
 			<li>
-				<a href="#"><img width="24" height="24" src="${contextPath}/resources/image/facebood_icon.png">페이스북</a>
+				<a href="#"><img width="24" height="24" src="${contextPath}/resources/image/facebook_icon.png">페이스북</a>
 			</li>
 			<li>
 				<a href="#"><img width="24" height="24" src="${contextPath}/resources/image/twitter_icon.png">트위터</a>

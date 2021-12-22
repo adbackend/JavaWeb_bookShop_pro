@@ -23,5 +23,18 @@ public class MemberServiceImpl implements MemberService{
 		
 		return memberDAO.login(loginMap);
 	}
+	
+	//아이디 중복체크 
+	@Override
+	public String overlapped(String id) throws Exception{
+		
+		return memberDAO.selectOverlappedID(id);
+	}
+	
+	//회원가입
+	@Override
+	public void addMember(MemberVO memberVO) throws Exception {
+		memberDAO.insertNewMember(memberVO);
+	}
 
 }

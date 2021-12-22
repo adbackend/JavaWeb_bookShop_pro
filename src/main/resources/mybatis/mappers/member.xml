@@ -18,7 +18,6 @@
 		
 		<result property="email1" column="email1"/>
 		<result property="email2" column="email2"/>
-		<result property="email3" column="email3"/>
 		<result property="emailsts_yn" column="emailsts_yn"/>
 		
 		<result property="zipconde" column="zipcode"/>
@@ -36,6 +35,80 @@
 					AND member_pw=#{member_pw}
 		]]>
 	</select>
+	
+	
+	<select id="selectOverlappedID" parameterType="String" resultType="String">
+		<![CDATA[
+			SELECT DECODE(count(*),1,'true',0,'false')
+				FROM t_shopping_member 
+				WHERE member_id = #{id}
+		]]>
+	</select>
+	
+	<insert id="insertNewMember" parameterType="memberVO">
+		<![CDATA[
+			INSERT INTO t_shopping_member(
+											member_id,
+											member_pw,
+											member_name,
+											member_gender,
+											
+											member_birth_y,
+											member_birth_m,
+											member_birth_d,
+											member_birth_gn,
+											
+											tel1,
+											tel2,
+											tel3,
+											
+											hp1,
+											hp2,
+											hp3,
+											hp4,
+											smssts_yn,
+											
+											email1,
+											email2,
+											emailsts_yn,
+											
+											zipcode,
+											roadAddress,
+											jibunAddress,
+											namujiAddress
+										)
+		
+										VALUES(#{member_id},
+											   #{member_pw},
+											   #{member_name},
+											   #{member_gender},
+											   
+											   #{member_birth_y},
+											   #{member_birth_m},
+											   #{member_birth_d},
+											   #{member_birth_gn},
+											   
+											   #{tel1},
+											   #{tel2},
+											   #{tel3},
+											   
+											   #{hp1},
+											   #{hp2},
+											   #{hp3},
+											   #{smssts_yn},
+											   
+											   #{email1},
+											   #{email2},
+											   #{email3},
+											   #{emailsts_yn},
+											   
+											   #{zipcode},
+											   #{roadAddress},
+											   #{jibunAddress},
+											   #{numujiAddress}
+										)
+		]]>
+	</insert>
 	
 </mapper>
 
