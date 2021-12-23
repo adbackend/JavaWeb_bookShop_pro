@@ -9,7 +9,7 @@
 ### 개념적 설계
 ![image](https://user-images.githubusercontent.com/94349690/147237094-164cd0cb-2fb0-4fdc-8892-3e819bff83d6.png)
 
-== ㄱ ==
+
 
 ### 물리적 설계
 ![image](https://user-images.githubusercontent.com/94349690/147237283-705daaac-923e-4d7f-9891-16af28ceb612.png)
