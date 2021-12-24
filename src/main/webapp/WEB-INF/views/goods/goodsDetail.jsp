@@ -19,10 +19,69 @@
 <html>
 <head>
 <style>
+#layer {
+	z-index: 2;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+}
 
+#popup {
+	z-index: 3;
+	position: fixed;
+	text-align: center;
+	left: 50%;
+	top: 45%;
+	width: 300px;
+	height: 200px;
+	background-color: #ccffff;
+	border: 3px solid #87cb42;
+}
+
+#close {
+	z-index: 4;
+	float: right;
+}
 </style>
 <script type="text/javascript">
-function fn_order_each_goods()
+
+	function add_cart(goods_id){
+		
+		$.ajax({
+			type:"post",
+			async:false, //false인 경우 동기식으로 처리,요청을 보낸 후 응답결과를 받아야지만 다음 동작이 이루어지는 방식
+			url:"${contextPath}/cart/addGoodsInCart.do",
+			data:{goods_id:goods_id},
+			success:function(data,textStatus){
+				if(data.trim()=='add_success'){
+					imagePopup('open','.layer01');
+				}else if(data.trim()=='already_existed'){
+					alert("이미 카트에 등록된 상품입니다.");
+				}
+			},
+			error:function(data,textStatus){
+				alert("에러발생");
+			},
+			complete:function(data,textStatus){
+				//alert("작업 완료");
+			}
+		});  //end ajax
+		
+	}
+	
+	//장바구니 담을 시 팝업창
+	function imagePopup(type){
+		if(type=='open'){ //팝업창을 연다
+			jQuery("#layer").attr('style','visibility:visible');
+			
+			//페이지를 가리기위한 레이어 영역의 높이를 페이지 전체의 높이와 같게한다
+			jQuery("#layer").height(jQuery(document).height());
+
+		}else if(type=='close'){ //팝업창 닫기
+			jQuery("#layer").attr('style','visibility:hidden');
+		}
+	}
 </script>
 </head>
 <body>
@@ -35,10 +94,6 @@ function fn_order_each_goods()
 	<div id="goods_image">
 		<figure>
 			<img alt="HTML5 & amp; CSS3" src="${contextPath}/thumbnails.do?goods_id=${goods.goods_id}&fileName=${goods.goods_fileName}"/>
-			<script>
-				console.log(${goods.goods_id});
-				console.log(${goods.goods_fileName});
-			</script>
 		</figure>
 	</div>
 	
@@ -128,7 +183,7 @@ function fn_order_each_goods()
 		
 		<ul>
 			<li><a class="buy" href="javascript:fn_order_each_goods('${goods.goods_id}','${goods.goods_title}','${goods.goods_sales_price}','${goods.goods_fileName}');">구매하기</a></li>
-			<li><a class="cart" href="javascript:add_cart('${goods.goods_id}');">장바구니</a></li>
+			<li><a class="cart" href="javascript:add_cart('${goods.goods_id}')">장바구니</a></li>
 			<li><a class="wish" href="#">위시리스트</a></li>
 		</ul>
 	</div>
@@ -184,7 +239,7 @@ function fn_order_each_goods()
 	
 	<div class="clear"></div>
 	<!-- visibility:hidden 으로 설정하여 해당 div안의 모든 것들을 가려둔다 -->
-	<div id="layer" style="visibility:hidden"></div>
+	<div id="layer" style="visibility:hidden">
 	
 	<div id="popup">
 		<!-- 팝업창 닫기 -->
@@ -198,6 +253,7 @@ function fn_order_each_goods()
 			<input type="submit" value="장바구니 보기"/>
 		</form>
 		
+	</div>
 	</div>
 </body>
 </html>

@@ -84,9 +84,9 @@
     			if(data=='false'){
 
     				alert("사용할 수 있는 ID입니다.");
-	    			$("btnOverlapped").prop("disabled",true);
-	    			$("_member_id").prop("disabled",true);
-	    			$("_member_id").val(_id);
+	    			$("#btnOverlapped").prop("disabled",true);
+	    			$("#_member_id").prop("disabled",true);
+	    			$("#member_id").val(_id);
     				
     			}else{
     				alert("사용할 수 없는 ID입니다.");
@@ -102,53 +102,66 @@
     	
     }
     
-    //이메일
-//     function email_change(email){
-//     	if(email=="1")){ //직접입력
-//     		document.getElementById("email2").style.display="block";
-//     		document.frm.email2.value="";
-//     	}else{
-//     		document.getElemetById("email2").style.display="none";
-//     		document.frm.email2.value=email;
-//     	}
-//     }
-    
-    function password_check(){
 
-	var member_pw = document.frm.member_pw.value;
-	var member_pw2 = document.frm.member_pw2.value;
-	
-	if(member_pw.length<4 || member_pw2.length >16) { //비밀번호는 4~16자리
-		alert("비밀번호는 4~16자리만 이용가능 합니다.");
-		document.getElementById("member_pw").value=document.getElementById("member_pw2").value='';
-		document.getElementById("same").innerHTML='';
-	}
-	
-	if(document.getElementById("member_pw").value!='' && document.getElementById("member_pw2").value!=''){
-		if(document.getElementById("member_pw").value==document.getElementById("member_pw2").value){
-			document.getElementById("same").innerHTML="비밀번호 일치";
-			document.getElementById("same").style.color="blue";
-		}else{
-			document.getElementById("same").innerHTML="비밀번호 불일치";
-			document.getElementById("same").style.color="red";
-			document.frm.member_pw2.value=""; //초기화
+    //비밀번호 확인 유효성
+	function password_check(){
+		var member_pw1 = document.getElementById("member_pw1").value;
+		var SC = ["!","@","#","$","%",".","~"];
+		var check_SC = 0;
+		
+		if(member_pw1.length<4 || member_pw1.length>16){
+			alert("비밀번호는 4~16자만 입력하세요");
+			document.getElementById("member_pw1").value='';
+		}
+		
+		for(var i=0; i<SC.length; i++){
+			if(member_pw1.indexOf(SC[i]) !=-1 ){
+				check_SC=1;
+			}
+		}
+		
+		if(check_SC==0){
+			alert("!, @, #, % , . , ~ 의 특수문자가 들어가 있지 않습니다.");
+		}
+		
+		if(document.getElementById("member_pw1").value!='' && document.getElementById("member_pw2").value!=''){
+			if(document.getElementById("member_pw1").value== document.getElementById("member_pw2").value){
+				document.getElementById("same").innerHTML='비밀번호 일치';
+				document.getElementById("same").style.color='blue';
+			}else{
+				document.getElementById("same").innerHTML='비밀번호 불일치';
+				document.getElementById("same").style.color='red';
+			}
 		}
 	}
-}
+    
+    //전화번호 없음
+    function tel_Addr(tel){
+    	if(tel=="1"){ //없음
+    		document.frm.tel2.value="";
+    		document.frm.tel3.value="";
+    		document.getElementById("tel2").readOnly=true;
+    		document.getElementById("tel3").readOnly=true;
+    	}else{
+    		document.getElementById("tel2").readOnly=false;
+    		document.getElementById("tel3").readOnly=false;
+
+    	}
+    }
 
     
     
     
     //이메일 직접입력, 선택
     function email_change(email){
-    	alert("이메일");
     	if(email=="1"){
     		document.frm.email2.value=""; //직접입력칸 초기화
-    		document.frm.email2.disabled=false;
+    		document.getElementById("email2").readOnly=false;
+
     	}else{
     		
     		document.frm.email2.value=email;
-    		document.frm.email2.disabled=true;
+    		document.getElementById("email2").readOnly=true;
     	}
     }
     
@@ -171,13 +184,13 @@
 					
 					<tr class="dot_line">
 						<td class="fixed_join">비밀번호</td>
-						<td><input type="password" name="member_pw" id="member_pw" size="20" onChange="password_check()"/></td>
+						<td><input type="password" name="member_pw" id="member_pw1" size="20" onChange="password_check()"/></td>
 					</tr>
 
 					<tr class="dot_line">
 						<td class="fixed_join">비밀번호 확인</td>
 						<td>
-							<input type="password" name="member_pw2"  id="member_pw2" size="20"/>
+							<input type="password" name="member_pw2"  id="member_pw2" onChange="password_check()" size="20"/>
 							<span id="same"></span>
 						</td>
 					</tr>
@@ -252,8 +265,8 @@
 					<tr class="dot_line">
 						<td class="fixed_join">전화번호</td>
 						<td>
-							<select name="tel1">
-								<option>없음</option>
+							<select name="tel1" id="tel_select" onchange="tel_Addr(this.value)">
+								<option value="1">없음</option>
 								<option value="02">02</option>
 								<option value="031">031</option>
 								<option value="032">032</option>
@@ -278,7 +291,7 @@
 								<option value="0507">0507</option>
 								<option value="0508">0508</option>
 								<option value="070">070</option>
-							</select> - <input type="text" name="tel2" size="10px"/> - <input type="text" name="tel3" size="10px"/>
+							</select> - <input type="text" name="tel2" id="tel2" size="10px" readonly/> - <input type="text" name="tel3" id="tel3" size="10px" readonly/>
 						</td>
 					</tr>
 					
@@ -329,7 +342,7 @@
 					<tr class="dot_line">
 							<td class="fixed_join">주소</td>
 							<td>
-								<input type="text" id="zipcode" size="10"/><a href="javascript:sample6_execDaumPostcode()">우편번호 검색</a>
+								<input type="text" id="zipcode" name="zipcode" size="10"/><a href="javascript:sample6_execDaumPostcode()">우편번호 검색</a>
 								<p>
 									도로명 주소:<br><input type="text" id="roadAddress" name="roadAddress" size="50"/><br><br>
 									지번 주소: <input type="text" id="jibunAddress" name="jibunAddress" size="50"/><br><br>

@@ -186,6 +186,20 @@ public class MemberVO {
 	public void setDel_yn(String del_yn) {
 		this.del_yn = del_yn;
 	}
+	
+	@Override
+	public String toString() {
+		return "MemberVO [member_id=" + member_id + ", member_pw=" + member_pw + ", member_name=" + member_name
+				+ ", member_gender=" + member_gender + ", tel1=" + tel1 + ", tel2=" + tel2 + ", tel3=" + tel3 + ", hp1="
+				+ hp1 + ", hp2=" + hp2 + ", hp3=" + hp3 + ", smssts_yn=" + smssts_yn + ", email1=" + email1
+				+ ", email2=" + email2 + ", emailsts_yn=" + emailsts_yn + ", zipcode=" + zipcode + ", roadAddress="
+				+ roadAddress + ", jibunAddress=" + jibunAddress + ", namujiAddress=" + namujiAddress
+				+ ", member_birth_y=" + member_birth_y + ", member_birth_m=" + member_birth_m + ", member_birth_d="
+				+ member_birth_d + ", member_birth_gn=" + member_birth_gn + ", joindate=" + joindate + ", del_yn="
+				+ del_yn + "]";
+	}
+	
+	
 
 	
 	

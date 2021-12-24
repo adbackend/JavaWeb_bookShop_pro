@@ -65,7 +65,6 @@
 											hp1,
 											hp2,
 											hp3,
-											hp4,
 											smssts_yn,
 											
 											email1,
@@ -99,13 +98,12 @@
 											   
 											   #{email1},
 											   #{email2},
-											   #{email3},
 											   #{emailsts_yn},
 											   
 											   #{zipcode},
 											   #{roadAddress},
 											   #{jibunAddress},
-											   #{numujiAddress}
+											   #{namujiAddress}
 										)
 		]]>
 	</insert>
