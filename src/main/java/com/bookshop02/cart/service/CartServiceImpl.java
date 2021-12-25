@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bookshop02.cart.dao.CartDAO;
 import com.bookshop02.cart.vo.CartVO;
+import com.bookshop02.goods.vo.GoodsVO;
 
 @Service("cartService")
 @Transactional(propagation=Propagation.REQUIRED)
@@ -46,7 +47,11 @@ public class CartServiceImpl implements CartService{
 			return null;
 		}
 		
-		return null;
+		List<GoodsVO> myGoodsList = cartDAO.selectGoodsList(myCartList);
+		cartMap.put("myCartList", myCartList);
+		cartMap.put("myGoodsList", myGoodsList);
+		
+		return cartMap;
 	}
 	
 	

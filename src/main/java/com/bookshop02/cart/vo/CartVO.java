@@ -10,6 +10,7 @@ public class CartVO {
 	private String member_id; //회원아이디
 	private int cart_goods_qty; //상품 개수
 	private String creDate; //생성일자
+	
 	public int getCart_id() {
 		return cart_id;
 	}

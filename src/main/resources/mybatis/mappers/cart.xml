@@ -86,13 +86,15 @@
 			SELECT g.*, d.fileName FROM t_shopping_goods g, t_goods_detail_image d
 				WHERE g.goods_id=d.goods_id
 				AND d.filetype='main_image'
-				AND goods_id in
+				AND g.goods_id in
 		]]>
 		<foreach item="item" collection="list" open="(" separator="," close=")">
 			#{item.goods_id}
 		</foreach>
 		ORDER BY g.goods_creDate DESC
 	</select>
+	
+	
 
 </mapper>
 

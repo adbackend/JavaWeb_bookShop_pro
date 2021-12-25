@@ -8,6 +8,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.bookshop02.cart.vo.CartVO;
+import com.bookshop02.goods.vo.GoodsVO;
 
 @Repository("cartDAO")
 public class CartDAOImpl implements CartDAO{
@@ -47,7 +48,17 @@ public class CartDAOImpl implements CartDAO{
 	public List<CartVO> selectCartList(CartVO cartVO) throws DataAccessException {
 		
 		List<CartVO> cartList = (List)sqlSession.selectList("mapper.cart.selectCartList",cartVO);
+		
 		return cartList;
+	}
+	
+	@Override
+	public List<GoodsVO> selectGoodsList(List<CartVO> cartList) throws DataAccessException {
+
+		List<GoodsVO> myGoodsList;
+		myGoodsList = sqlSession.selectList("mapper.cart.selectGoodsList",cartList);
+		
+		return myGoodsList;
 	}
 }
 

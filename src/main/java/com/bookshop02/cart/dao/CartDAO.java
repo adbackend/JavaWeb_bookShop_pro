@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 
 import com.bookshop02.cart.vo.CartVO;
+import com.bookshop02.goods.vo.GoodsVO;
 
 public interface CartDAO {
 	
@@ -16,5 +17,7 @@ public interface CartDAO {
 	
 	//장바구니 목록
 	public List<CartVO> selectCartList(CartVO cartVO) throws DataAccessException;
+	
+	public List<GoodsVO> selectGoodsList(List<CartVO> cartList) throws DataAccessException;
 	
 }
