@@ -48,11 +48,17 @@
 
 	function add_cart(goods_id){
 		
+		var target = document.getElementById("order_goods_qty");
+		var order_goods_qty = target.options[target.selectedIndex].value; //상품수량
+		
+		console.log("찍히냐..?"+order_goods_qty);
+		
 		$.ajax({
 			type:"post",
 			async:false, //false인 경우 동기식으로 처리,요청을 보낸 후 응답결과를 받아야지만 다음 동작이 이루어지는 방식
 			url:"${contextPath}/cart/addGoodsInCart.do",
-			data:{goods_id:goods_id},
+			data:{goods_id:goods_id,
+				cart_goods_qty:order_goods_qty},
 			success:function(data,textStatus){
 				if(data.trim()=='add_success'){
 					imagePopup('open','.layer01');
@@ -82,6 +88,55 @@
 			jQuery("#layer").attr('style','visibility:hidden');
 		}
 	}
+
+	fn_order_each_goods('${goods.goods_id}','${goods.goods_title}','${goods.goods_sales_price}','${goods.goods_fileName}');">구매하기</a></li>
+
+	//구매하기 버튼
+	function fn_order_each_goods(goods_id, goods_title, goods_sales_price, fileName){
+		
+		var _isLogOn = document.getElementById("isLogOn");
+		var isLogOn = _isLogOn.value;
+		
+		if(isLogOn == "false" || isLogOn == ""){
+			alert("로그인 후 주문이 가능 합니다.");
+		}
+		
+		var total_price, final_total_price;
+		var order_goods_qty = document.getElementById("order_goods_qty"); //구매 수량
+		
+		var formObj = document.createElement("form");
+		var i_goods_id = document.createElement("input");
+		var i_goods_title = document.createElement("input");
+		var i_goods_sales_price = document.createElement("input");
+		var i_fileName = document.createElement("input");
+		var i_order_goods_qty = document.createElement("input");
+		
+		i_goods_id.name="goods_id";
+		i_goods_title.name="goods_title";
+		i_goods_sales_price.name="goods_sales_price";
+		i_fileName="goods_fileName";
+		i_order_goods_qty="order_goods_qty";
+		
+		i_goods_id.value=goods_id;
+		i_order_goods_qty.value=order_goods_qty.value;
+		i_goods_title.value=goods_title;
+		i_goods_sales_price.value=goods_sales_price;
+		i_fileName.value=fileName;
+		
+		formObj.appendChild(i_goods_id);
+		formObj.appendChild(i_goods_title);
+		formObj.appendChild(i_goods_sales_price);
+		formObj.appendChild(i_fileName);
+		formObj.appendChild(i_order_goods_qty);
+		
+		document.body.appendChild(formObj);
+		formObj.method="post";
+		formObj.action="${contextPath}/order/orderEachGoods.do";
+		formObj.submit();
+			
+	}
+	
+	
 </script>
 </head>
 <body>
@@ -170,11 +225,9 @@
 					<td class="fixed">수량</td>
 					<td class="fixed">
 						<select style="width:60px" id="order_goods_qty">
-							<option>1</option>
-							<option>2</option>
-							<option>3</option>
-							<option>4</option>
-							<option>5</option>
+							<c:forEach var="i" begin="1" end="10">
+								<option value="${i}" <c:if test="${i}==1">selected</c:if>>${i}</option>
+							</c:forEach>
 						</select>
 					</td>
 				</tr>
@@ -257,21 +310,5 @@
 	</div>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<input type="hidden" name="isLogOn" id="isLogOn" value="${isLogOn}"/>
 

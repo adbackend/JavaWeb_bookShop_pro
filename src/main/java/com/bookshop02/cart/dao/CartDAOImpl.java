@@ -60,6 +60,12 @@ public class CartDAOImpl implements CartDAO{
 		
 		return myGoodsList;
 	}
+	
+	//장바구니 상품 삭제
+	@Override
+	public void deleteCart(int cart_id) throws DataAccessException {
+		sqlSession.delete("mapper.cart.deleteCartGoods",cart_id);
+	}
 }
 
 

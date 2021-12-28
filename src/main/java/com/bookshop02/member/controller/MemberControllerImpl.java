@@ -123,9 +123,6 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 		ResponseEntity resEntity = null;
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
-		System.out.println("회원가입 정보 받아오긴하냐...?"+_memberVO.toString());
-		System.out.println("disabled 값을 안받아..?"+_memberVO.getEmail2());
-		System.out.println("readonly 값을 받고....?"+_memberVO.getEmail2());
 		
 		try {
 			

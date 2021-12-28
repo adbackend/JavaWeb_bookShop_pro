@@ -56,13 +56,15 @@
 			INSERT INTO t_shopping_cart(
 										cart_id, 
 										goods_id, 
-										member_id)
+										member_id,
+										cart_goods_qty)
 									
 									VALUES(
 									
 										#{cart_id},
 										#{goods_id},
-										#{member_id})
+										#{member_id},
+										#{cart_goods_qty})
 		]]>
 	</insert>
 	
@@ -94,7 +96,13 @@
 		ORDER BY g.goods_creDate DESC
 	</select>
 	
-	
+	<!-- 장바구니목록 상품 삭제 -->
+	<delete id="deleteCartGoods" parameterType="int">
+		<![CDATA[
+			DELETE FROM t_shopping_cart
+				WHERE cart_id=#{cart_id}
+		]]>
+	</delete>
 
 </mapper>
 

@@ -13,5 +13,6 @@ public interface CartService {
 	
 	public Map<String, List> myCartList(CartVO cartVO) throws Exception; //장바구니 목록
 	
+	public void removeCartGoods(int cart_id) throws Exception; //장바구니 상품 삭제
 
 }

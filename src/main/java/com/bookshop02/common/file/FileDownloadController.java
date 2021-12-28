@@ -59,7 +59,6 @@ public class FileDownloadController {
 							 @RequestParam("fileName") String fileName,
 							 HttpServletResponse response) throws Exception{
 		
-		System.out.println("썸네일 아이디, 파일이름 받냐..?"+goods_id+","+fileName);
 		OutputStream out = response.getOutputStream();
 		
 		String filePath = CURR_IMAGE_REPO_PATH+"\\"+goods_id+"\\"+fileName;

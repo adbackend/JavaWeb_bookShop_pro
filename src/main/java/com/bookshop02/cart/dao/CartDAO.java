@@ -20,4 +20,6 @@ public interface CartDAO {
 	
 	public List<GoodsVO> selectGoodsList(List<CartVO> cartList) throws DataAccessException;
 	
+	//장바구니 상품 삭제
+	public void deleteCart(int cart_id) throws DataAccessException;
 }

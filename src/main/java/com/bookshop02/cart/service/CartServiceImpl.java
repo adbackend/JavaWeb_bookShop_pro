@@ -54,5 +54,12 @@ public class CartServiceImpl implements CartService{
 		return cartMap;
 	}
 	
+	//장바구니 상품 삭제
+	@Override
+	public void removeCartGoods(int cart_id) throws Exception {
+		
+		cartDAO.deleteCart(cart_id);
+	}
+	
 	
 }
