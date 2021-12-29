@@ -2,6 +2,12 @@ package com.bookshop02.order.vo;
 
 import org.springframework.stereotype.Component;
 
+/**
+  * @FileName : OrderVO.java
+  * @Date : 2021. 12. 29. 
+  * @Author : 최유정
+  * @Description :  31개 컬럼
+  */
 @Component("orderVO")
 public class OrderVO {
 	
