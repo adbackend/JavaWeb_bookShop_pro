@@ -1,5 +1,8 @@
 package com.bookshop02.order.dao;
 
-public class OrderDAOImpl {
+import org.springframework.stereotype.Repository;
+
+@Repository("orderDAO")
+public class OrderDAOImpl implements OrderDAO {
 
 }

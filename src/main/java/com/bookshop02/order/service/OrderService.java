@@ -1,5 +1,5 @@
 package com.bookshop02.order.service;
 
-public class OrderService {
+public interface OrderService {
 
 }

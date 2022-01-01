@@ -51,7 +51,6 @@
 		var target = document.getElementById("order_goods_qty");
 		var order_goods_qty = target.options[target.selectedIndex].value; //상품수량
 		
-		console.log("찍히냐..?"+order_goods_qty);
 		
 		$.ajax({
 			type:"post",
@@ -89,7 +88,6 @@
 		}
 	}
 
-	fn_order_each_goods('${goods.goods_id}','${goods.goods_title}','${goods.goods_sales_price}','${goods.goods_fileName}');">구매하기</a></li>
 
 	//구매하기 버튼
 	function fn_order_each_goods(goods_id, goods_title, goods_sales_price, fileName){
@@ -114,8 +112,8 @@
 		i_goods_id.name="goods_id";
 		i_goods_title.name="goods_title";
 		i_goods_sales_price.name="goods_sales_price";
-		i_fileName="goods_fileName";
-		i_order_goods_qty="order_goods_qty";
+		i_fileName.name="goods_fileName";
+		i_order_goods_qty.name="order_goods_qty";
 		
 		i_goods_id.value=goods_id;
 		i_order_goods_qty.value=order_goods_qty.value;

@@ -8,6 +8,7 @@
     <typeAlias type="com.bookshop02.goods.vo.ImageFileVO" alias="imageFileVO" />
     <typeAlias type="com.bookshop02.member.vo.MemberVO" alias="MemberVO"/>
     <typeAlias type="com.bookshop02.cart.vo.CartVO" alias="CartVO"/>
+    <typeAlias type="com.bookshop02.order.vo.OrderVO" alias="OrderVO"/>
 
   </typeAliases>
 </configuration>

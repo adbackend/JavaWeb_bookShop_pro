@@ -35,6 +35,8 @@ public class OrderControllerImpl extends BaseController implements OrderControll
 	public ModelAndView orderEachGoods(@ModelAttribute("orderVO") OrderVO _orderVO, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 
+		System.out.println(_orderVO.getGoods_id()+_orderVO.getGoods_title());
+		
 		request.setCharacterEncoding("utf-8");
 		
 		HttpSession session = request.getSession();
@@ -65,8 +67,8 @@ public class OrderControllerImpl extends BaseController implements OrderControll
 		String viewName = (String)request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
 		
-		List myOrderList = new ArrayList<OrderVO>(); //주문 정보를 저장할 주문 ArrayList를 생성
-		myOrderList.add(myOrderList); //브라우저에 전달할 주문 정보를 ArrayList에 저장
+		List<OrderVO> myOrderList = new ArrayList<OrderVO>(); //주문 정보를 저장할 주문 ArrayList를 생성
+		myOrderList.add(orderVO); //브라우저에 전달할 주문 정보를 ArrayList에 저장
 		
 		MemberVO memberInfo = (MemberVO)session.getAttribute("memberInfo");
 		

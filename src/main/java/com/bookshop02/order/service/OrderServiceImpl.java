@@ -1,5 +1,11 @@
 package com.bookshop02.order.service;
 
-public class OrderServiceImpl {
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service("orderService")
+@Transactional(propagation=Propagation.REQUIRED)
+public class OrderServiceImpl implements OrderService{
 
 }
