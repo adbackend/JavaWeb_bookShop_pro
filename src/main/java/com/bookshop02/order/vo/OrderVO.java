@@ -46,7 +46,7 @@ public class OrderVO {
 	private String final_total_price;
 	private int goods_qty;
 	private String goods_fileName; //상품 이미지 파일이름
-	private String orderder_hp; //주문자 휴대폰 번호
+	private String orderer_hp; //주문자 휴대폰 번호
 	
 	public int getOrder_seq_num() {
 		return order_seq_num;
@@ -228,11 +228,11 @@ public class OrderVO {
 	public void setGoods_fileName(String goods_fileName) {
 		this.goods_fileName = goods_fileName;
 	}
-	public String getOrderder_hp() {
-		return orderder_hp;
+	public String getOrderer_hp() {
+		return orderer_hp;
 	}
-	public void setOrderder_hp(String orderder_hp) {
-		this.orderder_hp = orderder_hp;
+	public void setOrderer_hp(String orderer_hp) {
+		this.orderer_hp = orderer_hp;
 	}
 	
 	

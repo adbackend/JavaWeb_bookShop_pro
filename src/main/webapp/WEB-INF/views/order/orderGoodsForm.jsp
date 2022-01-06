@@ -11,6 +11,23 @@
 	left:0px;
 	width:100%;
 }
+
+#popup_order_detail{
+	z-index:3;
+	position:fixed;
+	text-align:center;
+	left:10%;
+	top:0%;
+	width:60%;
+	height:100%;
+	background-color:#ccff99;
+	border:2px solid #0000ff;
+}
+
+#close{
+	z-index:4;
+	float:right;
+}
 </style>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
@@ -70,12 +87,12 @@ window.onload=function(){
 
 function init(){
 	
-	var form_order = document.form_odrer;
+	var form_order = document.form_order;
 	
-	var h_tel1=form_order.h_tel1;
-	var h_hp1=form_order.h_hp1;
+	var h_tel1 = form_order.h_tel1;
+	var h_hp1 = form_order.h_hp1;
 	
-	var tel1=h_tel1.value;
+	var tel1 = h_tel1.value;
 	var hp1=h_hp1.value;
 	
 	var select_tel1=form_order.tel1;
@@ -204,8 +221,8 @@ var order_goods_qty
 var each_goods_price;
 var total_order_goods_price;
 var total_order_goods_qty;
-var orderer_name
-var receiver_name
+var orderer_name;
+var receiver_name;
 var hp1;
 var hp2;
 var hp3;
@@ -249,8 +266,240 @@ function fn_show_order_detail(){
 		for(var i=0; i<h_goods_id.length; i++){
 			goods_id += h_goods_id[i].value+"<br>";
 		}
-		
 	}
+	
+	if(h_goods_title.length<2 || h_goods_title.length==null){
+		goods_title+=h_goods_title.value;
+	}else{
+		for(var i=0; i<h_goods_title.length; i++){
+			goods_title += h_goods_title[i].value+"<br>";
+		}
+	}
+	
+	if(h_goods_fileName.length<2 || h_goods_fileName.length==null){
+		goods_fileName+=h_goods_fileName.value;
+	}else{
+		for(var i=0; i<h_goods_fileName.length; i++){
+			goods_fileName+=h_goods_fileName[i].value+"<br>";
+		}
+	}
+	
+	total_order_goods_price = h_final_total_Price.value;
+	total_order_goods_qty = h_total_order_goods_qty.value;
+	
+	for(var i=0; i<r_delivery_method.length; i++){
+		if(r_delivery_method[i].checked==true){
+			delivery_method=r_delivery_method[i].value;
+			break;
+		}
+	}
+	
+	var r_gift_wrapping = frm.gift_wrapping;
+	
+	for(var i=0; i<r_gift_wrapping.length; i++){
+		if(r_gift_wrapping[i].checked==true){
+			gift_wrapping=r_gift_wrapping[i].value;
+			break;
+		}
+	}
+	
+	var r_pay_method = frm.pay_method;
+	
+	for(var i=0; i<r_pay_method.length; i++){
+		if(r_pay_method[i].checked==true){
+			pay_method=r_pay_method[i].value;
+			
+			if(pay_method=="신용카드"){
+				var i_card_com_name=document.getElementById("card_com_name");
+				var i_card_pay_month=document.getElementById("card_pay_month");
+				
+				card_com_name=i_card_com_name;
+				card_pay_month=i_card_pay_month.value;
+				pay_method +="<br>"+ "카드사: "+card_com_name+"<br>"+"할부개월수: "+card_pay_month;
+				
+				pay_orderer_hp_num="해당없음";
+				
+			}else if(pay_method=="휴대폰결제"){
+				
+				var i_pay_order_tel1 = document.getElementById("pay_order_tel1");
+				var i_pay_order_tel2 = document.getElementById("pay_order_tel2");
+				var i_pay_order_tel3 = document.getElementById("pay_order_tel3");
+				
+				pay_orderer_hp_num = i_pay_order_tel1.value+"-"+i_pay_order_tel2.value+"-"+i_pay_order_tel3.value;
+				
+				pay_method+="<br>"+"결제 휴대폰번호"+pay_orderer_hp_num;
+				
+				card_com_name="해당없음";
+				card_pay_month="해당없음";
+			}//end if
+			break;
+		}//end for
+	}
+	
+	var i_hp1 = document.getElementById("hp1");
+	var i_hp2 = document.getElementById("hp2");
+	var i_hp3 = document.getElementById("hp3");
+	
+	var i_tel1 = document.getElementById("tel1");
+	var i_tel2=document.getElementById("tel2");
+	var i_tel3=document.getElementById("tel3");
+	
+	var i_zipcode=document.getElementById("zipcode");
+	var i_roadAddress=document.getElementById("roadAddress");
+	var i_jibunAddress=document.getElementById("jibunAddress");
+	var i_namujiAddress=document.getElementById("namujiAddress");
+	var i_delivery_message=document.getElementById("delivery_message");
+	var i_pay_method=document.getElementById("pay_method");
+	
+	order_goods_qty=h_order_goods_qty.value;
+	
+	orderer_name = h_orderer_name.value;
+	receiver_name = i_receiver_name.value;
+	
+	hp1 = i_hp1.value;
+	hp2 = i_hp2.value;
+	hp3 = i_hp3.value;
+	
+	tel1 = i_tel1.value;
+	tel2 = i_tel2.value;
+	tel3 = i_tel3.value;
+	
+	receiver_hp_num = hp1 + "-" + hp2 + "-" + hp3;
+	receiver_tel_num = tel1 + "-" + tel2 + "-" + tel3;
+	
+	delivery_address = "우편번호: "+i_zipcode.value + "<br>" 
+	 				 + "도로명 주소: " + i_roadAddress.value + "<br>"
+	 				 + "[지번주소: " + i_jibunAddress.value + "] <br>"
+	 				 + i_namujiAddress.value;
+	 				 
+	delivery_message = i_delivery_message.value;
+	
+	var p_order_goods_id = document.getElementById("p_order_goods_id");
+	var p_order_goods_title = document.getElementById("p_order_goods_title");
+	var p_order_goods_qty = document.getElementById("p_order_goods_qty");
+	
+	var p_total_order_goods_qty = document.getElementById("p_total_order_goods_qty");
+	var p_total_order_goods_price = document.getElementById("p_total_order_goods_price");
+	
+	var p_orderer_name = document.getElementById("p_orderer_name");
+	var p_receiver_name = document.getElementById("p_receiver_name");
+	var p_delivery_method = document.getElementById("p_delivery_method");
+	
+	var p_receiver_hp_num = document.getElementById("p_receiver_hp_num");
+	var p_receiver_tel_num = document.getElementById("p_receiver_tel_num");
+	
+	var p_delivery_address = document.getElementById("p_delivery_address");
+	var p_delivery_message = document.getElementById("p_delivery_message");
+	var p_gift_wrapping = document.getElementById("p_gift_wrapping");
+	var p_pay_method = document.getElementById("p_pay_method");
+	
+	p_order_goods_id.innerHTML = goods_id;
+	p_order_goods_title.innerHTML = goods_title;
+	p_total_order_goods_qty.innerHTML = total_order_goods_qty+"개";
+	p_total_order_goods_price.innerHTML = total_order_goods_price+"원";
+	p_orderer_name.innerHTML = orderer_name;
+	p_receiver_name.innerHTML = receiver_name;
+	p_delivery_method.innerHTML = delivery_method;
+	p_receiver_hp_num.innerHTML = receiver_hp_num;
+	p_receiver_tel_num.innerHTML = receiver_tel_num;
+	p_delivery_address.innerHTML = delivery_address;
+	p_delivery_message.innerHTML = delivery_message;
+	p_gift_wrapping.innerHTML = gift_wrapping;
+	p_pay_method.innerHTML = pay_method;
+	imagePopup('open');
+	
+}
+
+//최종결제
+function fn_process_pay_order(){
+	
+	
+	var formObj = document.createElement("form");
+	
+	var i_receiver_name = document.createElement("input");
+	var i_receiver_hp1 = document.createElement("input");
+	var i_receiver_hp2 = document.createElement("input");
+	var i_receiver_hp3 = document.createElement("input");
+	
+	var i_receiver_tel1 = document.createElement("input");
+	var i_receiver_tel2 = document.createElement("input");
+	var i_receiver_tel3 = document.createElement("input");
+	
+	var i_delivery_address = document.createElement("input");
+	var i_delivery_message = document.createElement("input");
+	var i_delivery_method = document.createElement("input");
+	
+	var i_gift_wrapping = document.createElement("input");
+	var i_pay_method = document.createElement("input");
+	var i_card_com_name = document.createElement("input");
+	var i_card_pay_month = document.createElement("input");
+	var i_pay_orderer_hp_num = document.createElement("input");
+	
+	i_receiver_name.name="receiver_name";
+    i_receiver_hp1.name="receiver_hp1";
+    i_receiver_hp2.name="receiver_hp2";
+    i_receiver_hp3.name="receiver_hp3";
+   
+    i_receiver_tel1.name="receiver_tel1";
+    i_receiver_tel2.name="receiver_tel2";
+    i_receiver_tel3.name="receiver_tel3";
+    
+    i_delivery_address.name="delivery_address";
+    i_delivery_message.name="delivery_message";
+    i_delivery_method.name="delivery_method";
+    
+    i_gift_wrapping.name="gift_wrapping";
+    i_pay_method.name="pay_method";
+    i_card_com_name.name="card_com_name";
+    i_card_pay_month.name="card_pay_month";
+    i_pay_orderer_hp_num.name="pay_orderer_hp_num";
+    
+    
+    i_receiver_name.value=receiver_name;
+    i_receiver_hp1.value=hp1;
+    i_receiver_hp2.value=hp2;
+    i_receiver_hp3.value=hp3;
+    
+    i_receiver_tel1.value=tel1;
+    i_receiver_tel2.value=tel2;
+    i_receiver_tel3.value=tel3;
+    
+    i_delivery_address.value=delivery_address;
+    i_delivery_message.value=delivery_message;
+    i_delivery_method.value=delivery_method;
+    
+    i_gift_wrapping.value=gift_wrapping;
+    i_pay_method.value=pay_method;
+    i_card_com_name.value=card_com_name;
+    i_card_pay_month.value=card_pay_month;
+    i_pay_orderer_hp_num.value=pay_orderer_hp_num;
+	
+    
+    formObj.appendChild(i_receiver_name);
+    formObj.appendChild(i_receiver_hp1);
+    formObj.appendChild(i_receiver_hp2);
+    formObj.appendChild(i_receiver_hp3);
+    formObj.appendChild(i_receiver_tel1);
+    formObj.appendChild(i_receiver_tel2);
+    formObj.appendChild(i_receiver_tel3);
+
+    formObj.appendChild(i_delivery_address);
+    formObj.appendChild(i_delivery_message);
+    formObj.appendChild(i_delivery_method);
+    formObj.appendChild(i_gift_wrapping);
+    
+    formObj.appendChild(i_pay_method);
+    formObj.appendChild(i_card_com_name);
+    formObj.appendChild(i_card_pay_month);
+    formObj.appendChild(i_pay_orderer_hp_num);
+    
+    document.body.appendChild(formObj);
+	formObj.method="post";
+	formObj.action="${contextPath}/order/payToOrderGoods.do";
+	formObj.submit();
+	
+	imagePopup('close');
+	
 }
 
 
@@ -424,6 +673,14 @@ function fn_show_order_detail(){
 					
 					<tr class="dot_line">
 						<td class="fixed_join">배송 메시지</td>
+						<td>
+							<input type="text" id="delivery_message" name="delivery_message" size="50" placeholder="택배 기사님께 전달할 메시지를 남겨주세요"/>
+						</td>
+					</tr>
+					
+					
+					<tr class="dot_line">
+						<td class="fixed_join">선물 포장</td>
 						<td>
 							<input type="radio" id="gift_wrapping" name="gift_wrapping" value="yes"/>예 &nbsp;&nbsp;&nbsp;
 							<input type="radio" id="gift_wrapping" name="gift_wrapping" value="no" checked/>아니오
