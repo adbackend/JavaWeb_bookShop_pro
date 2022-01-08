@@ -35,7 +35,6 @@ public class MainController extends BaseController{
 		ModelAndView mav = new ModelAndView();
 		String viewName = (String)request.getAttribute("viewName");
 		
-		System.out.println("mainController들어오냐....?"+ viewName);
 		mav.setViewName(viewName);
 		
 		session = request.getSession();

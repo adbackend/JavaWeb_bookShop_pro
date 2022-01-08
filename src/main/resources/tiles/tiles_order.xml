@@ -13,5 +13,10 @@
 		<put-attribute name="title" value="상품 주문 결과 페이지"/>
 		<put-attribute name="body" value="/WEB-INF/views/order/orderResult.jsp"/>
 	</definition>
+	
+	<definition name="/order/orderAllCartGoods" extends="baseLayout">
+		<put-attribute name="title" value="상품 주문 페이지"/>
+		<put-attribute name="body" value="/WEB-INF/views/order/orderGoodsForm.jsp"/>
+	</definition>
 
 </tiles-definitions>

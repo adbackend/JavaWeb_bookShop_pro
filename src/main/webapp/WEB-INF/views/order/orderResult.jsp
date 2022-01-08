@@ -12,6 +12,7 @@
 				<td>주문번호</td>
 				<td colspan="2" class="fixed">주문상품명</td>
 				<td>수량</td>
+				<td>주문금액</td>
 				<td>배송비</td>
 				<td>예상적립금</td>
 				<td>주문금액합계</td>
@@ -138,7 +139,7 @@
 	<div class="clear"></div>
 	<br><br><br>
 	<a href="${contextPath}/main/main.do">
-		<img width="75" alt="" src="${contextPath}/resources/image/btn_shopping_continue.jpg"/>
+		<img width="75" alt="" src="${contextPath}/resources/image/btn_shoping_continue.jpg"/>
 	</a>
 	<div class="clear"></div>
 </body>

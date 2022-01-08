@@ -333,7 +333,7 @@ function fn_order_all_cart_goods(){
 		 <a href="javascript:fn_order_all_cart_goods()">
 		 	<img width="75" alt="" src="${contextPath}/resources/image/btn_order_final.jpg">
 		 </a>
-		 <a href="#">
+		 <a href="${contextPath}/main/main.do">
 		 	<img width="75" alt="" src="${contextPath}/resources/image/btn_shoping_continue.jpg">
 		 </a>
 	<center>
