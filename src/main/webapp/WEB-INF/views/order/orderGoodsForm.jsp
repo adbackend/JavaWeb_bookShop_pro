@@ -519,8 +519,8 @@ function fn_process_pay_order(){
 					<td>예상 적립금</td>
 					<td>주문금액 합계</td>
 				</tr>
-				<tr>
 					<c:forEach var="item" items="${myOrderList}">
+				<tr>
 						<td class="goods_image">
 							<a href="${contextPath}/goods/goodsDetail.do?goods_id=${item.goods_id}">
 								<img width="75" alt="" src="${contextPath}/thumbnails.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}"/>
@@ -549,11 +549,11 @@ function fn_process_pay_order(){
 							<h2>${item.goods_sales_price* item.order_goods_qty}원</h2>
 							<input type="hidden" id="h_each_goods_price" name="h_each_goods_price" value="${item.goods_sales_price*item.order_goods_qty}"/>
 						</td>
-						<c:set var="final_total_order_price" value="${fianl_total_order_price+item.goods_sales_price*item.order_goods_qty}"/>
-						<c:set var="total_order_price" value="${total_order_price+item.goods_sales_price*item.order_goods_qty}"/>
+						<c:set var="final_total_order_price" value="${final_total_order_price+ item.goods_sales_price* item.order_goods_qty}" />
+						<c:set var="total_order_price" value="${total_order_price+ item.goods_sales_price* item.order_goods_qty}" />
 						<c:set var="total_order_goods_qty" value="${total_order_goods_qty+item.order_goods_qty}"/>
-					</c:forEach>
 				</tr>
+					</c:forEach>
 			</tbody>
 		</table>
 		

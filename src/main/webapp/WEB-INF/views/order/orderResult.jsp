@@ -17,8 +17,8 @@
 				<td>예상적립금</td>
 				<td>주문금액합계</td>
 			</tr>
-			<tr>
 				<c:forEach var="item" items="${myOrderList}">
+			<tr>
 					<td>${item.order_id}</td>
 					<td class="goods_image">
 						<a href="${contextPath}/goods/goodsDetail.do?goods_id=${item.goods_id}">
@@ -35,8 +35,8 @@
 					<td><h2>0원</h2></td>
 					<td><h2>${1500*item.order_goods_qty}</h2></td>
 					<td><h2>${item.order_goods_qty*item.goods_sales_price}원</h2></td>
-				</c:forEach>
 			</tr>
+				</c:forEach>
 		</tbody>
 	</table>
 	
