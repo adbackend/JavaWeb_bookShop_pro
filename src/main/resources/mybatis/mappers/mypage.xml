@@ -41,6 +41,7 @@
 		
 	</resultMap>
 	
+	<!-- 마이페이지 메인 -->
 	<select id="selectMyOrderGoodsList" parameterType="String" resultMap="orderGoodsResult">
 		<![CDATA[
 			SELECT * FROM t_shopping_order 
@@ -49,6 +50,11 @@
 		]]>
 	</select>
 	
+	<!-- 주문취소 -->
+	<update id="updateMyOrderCancel" parameterType="String">
+		UPDATE t_shopping_order SET delivery_state='cancel_order'
+			WHERE order_id=#{order_id}
+	</update>
 	
 	
 	

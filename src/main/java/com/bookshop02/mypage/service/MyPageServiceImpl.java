@@ -17,8 +17,17 @@ public class MyPageServiceImpl implements MyPageService{
 	@Autowired
 	private MyPageDAO myPageDAO;
 	
+	//마이페이지 메인
 	public List<OrderVO> listMyOrderGoods(String member_id) throws Exception{
 		return myPageDAO.selectMyOrderGoodsList(member_id);
 	}
+	
+	//주문 취소
+	@Override
+	public void cancelOrder(String order_id) throws Exception {
+		myPageDAO.updateMyOrderCancel(order_id);
+	}
+	
+	
 			
 }

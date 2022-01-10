@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -28,7 +29,9 @@ public class MyPageControllerImpl extends BaseController implements MyPageContro
 	@Autowired
 	private MemberVO memberVO;
 	
+	//마이페이지 메인
 	@Override
+	@RequestMapping(value="/myPageMain.do", method=RequestMethod.GET)
 	public ModelAndView myPageMain(@RequestParam(required=false, value="message") String message, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		
@@ -45,8 +48,24 @@ public class MyPageControllerImpl extends BaseController implements MyPageContro
 		
 		List<OrderVO> myOrderList = myPageService.listMyOrderGoods(member_id);
 		
+		System.out.println("myOrderList size"+myOrderList.size());
 		mav.addObject("message",message);
 		mav.addObject("myOrderList",myOrderList);
+		
+		return mav;
+	}
+	
+	//주문 취소
+	@Override
+	@RequestMapping(value="cancelMyOrder.do", method = RequestMethod.POST)
+	public ModelAndView cancelMyOrder(@RequestParam("order_id") String order_id, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		
+		ModelAndView mav = new ModelAndView();
+		
+		myPageService.cancelOrder(order_id);
+		mav.addObject("message","cancel_order");
+		mav.setViewName("redirect:/mypage/myPageMain.do");
 		
 		return mav;
 	}
