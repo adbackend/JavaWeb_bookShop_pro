@@ -1,12 +1,14 @@
 package com.bookshop02.mypage.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bookshop02.member.vo.MemberVO;
 import com.bookshop02.mypage.dao.MyPageDAO;
 import com.bookshop02.order.vo.OrderVO;
 
@@ -26,6 +28,15 @@ public class MyPageServiceImpl implements MyPageService{
 	@Override
 	public void cancelOrder(String order_id) throws Exception {
 		myPageDAO.updateMyOrderCancel(order_id);
+	}
+	
+	//마이페이지 - 내정보 수정
+	@Override
+	public MemberVO modifyMyInfo(Map memberMap) throws Exception {
+		
+		String member_id = (String)memberMap.get("member_id");
+		myPageDAO.updateMyInfo(memberMap);
+		return myPageDAO.selectMyDetailInfo(member_id);
 	}
 	
 	
