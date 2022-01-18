@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script>
+<script type="text/javascript">
     function execDaumPostcode() {
         new daum.Postcode({
             oncomplete: function(data) {
@@ -94,6 +94,8 @@
     
     function fn_modify_member_info(attribute){
     	
+    	alert("수정오지..?");
+    	
     	var value;
     	var frm_mod_member = document.frm_mod_member;
     	
@@ -101,7 +103,7 @@
     		value=frm_mod_member.member_pw.value;
     	}else if(attribute=='member_gender'){
     		
-    		var = member_gender=frm_mod_member.member_gender;
+    		var member_gender = frm_mod_member.member_gender;
     		for(var i=0; member_gender.length; i++){
     			if(member_gender[i].checked){
     				value=member_gender[i].value;
@@ -189,7 +191,7 @@
     		value_email2 = email2.value;
     		value_emailsts_yn = emailsts_yn.checked;
     		
-    		value = value_email1 + "," + value_email2 + "," + value_emailsts_yn';
+    		value = value_email1 + "," + value_email2 + "," + value_emailsts_yn;
     	}else if(attribute=='address'){
     		var zipcode = frm_mod_member.zipcode;
     		var roadAddress = frm_mod_member.roadAddress;
@@ -248,7 +250,7 @@
 				<tr class="dot_line">
 					<td class="fixed_join">비밀번호</td>
 					<td><input type="password" name="member_pw" size="20" value="${memberInfo.member_pw}"/></td>
-					<td><input type="button" value="수정하기" onclick="fn_modify_member_info('member_pw')"/></td>
+					<td><input type="button" value="수정하기" onClick="fn_modify_member_info('member_pw')"/></td>
 				</tr>
 				
 				<tr class="dot_line">
@@ -274,7 +276,7 @@
 						</c:choose>
 					</td>
 					<td>
-						<input type="button" value="수정하기" onclick="fn_modify_member_info('member_gender')"/>
+						<input type="button" value="수정하기" onClick="fn_modify_member_info('member_gender')"/>
 					</td>
 				</tr>
 				

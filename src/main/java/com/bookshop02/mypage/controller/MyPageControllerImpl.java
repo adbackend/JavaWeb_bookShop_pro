@@ -151,6 +151,28 @@ public class MyPageControllerImpl extends BaseController implements MyPageContro
 		return resEntity;
 	}
 	
+	// 주문목록,배송조회
+	@Override
+	@RequestMapping(value="/listMyOrderHistory.do", method=RequestMethod.GET)
+	public ModelAndView listMyOrderHistory(@RequestParam Map<String, String> dateMap, HttpServletRequest request,
+			HttpServletResponse reponse) throws Exception {
+
+		String viewName = (String)request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView(viewName);
+		
+		HttpSession session = request.getSession();
+		memberVO = (MemberVO)session.getAttribute("memberInfo");
+		
+		String member_id = memberVO.getMember_id();
+		
+		String fixedSearchPeriod = dateMap.get("fixedSearchPeriod");
+		String beginDate = null, endDate = null;
+		
+		String[] tempDate = calcSearchPeriod(fixedSearchPeriod).split(",");
+		
+		
+		return mav;
+	}
 	
 	
 

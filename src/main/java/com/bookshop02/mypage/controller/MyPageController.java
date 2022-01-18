@@ -1,5 +1,7 @@
 package com.bookshop02.mypage.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,4 +22,7 @@ public interface MyPageController {
 	
 	//마이페이지 - 정보 수정하기
 	public ResponseEntity modifyMyInfo(@RequestParam("attribute") String attribute, @RequestParam("value") String value, HttpServletRequest request, HttpServletResponse reponse) throws Exception;
+
+	// 주문내역,배송조회
+	public ModelAndView listMyOrderHistory(@RequestParam Map<String, String> dateMap, HttpServletRequest request, HttpServletResponse reponse) throws Exception;
 }
