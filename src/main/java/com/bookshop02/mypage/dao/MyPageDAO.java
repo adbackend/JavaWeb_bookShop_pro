@@ -20,4 +20,8 @@ public interface MyPageDAO {
 	public void updateMyInfo(Map memberMap) throws DataAccessException;
 	
 	public MemberVO selectMyDetailInfo(String member_id) throws DataAccessException;
+	
+	public List<OrderVO> selectMyOrderHistoryList(Map dateMap) throws DataAccessException;
+	
+	public List selectMyOrderInfo(String order_id) throws DataAccessException;
 }

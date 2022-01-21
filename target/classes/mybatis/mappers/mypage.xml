@@ -130,6 +130,16 @@
 	</select>
 	
 	
+	<select id="selectMyOrderHistoryList" parameterType="java.util.Map" resultMap="orderGoodsResult">
+		<![CDATA[
+			SELECT * FROM t_shopping_order
+				WHERE member_id=#{member_id}
+				AND TO_CHAR(pay_order_time,'yyyy-mm-dd') BETWEEN #{beginDate} AND #{endDate}
+				ORDER BY pay_order_time DESC
+		]]>
+	</select>
+	
+	
 	
 	
 	

@@ -39,6 +39,18 @@ public class MyPageServiceImpl implements MyPageService{
 		return myPageDAO.selectMyDetailInfo(member_id);
 	}
 	
+
+	@Override
+	public List<OrderVO> listMyOrderHistory(Map dateMap) throws Exception {
+		
+		return myPageDAO.selectMyOrderHistoryList(dateMap);
+	}
+	
+	@Override
+	public List findMyOrderInfo(String order_id) throws Exception {
+
+		return myPageDAO.selectMyOrderInfo(order_id);
+	}
 	
 			
 }

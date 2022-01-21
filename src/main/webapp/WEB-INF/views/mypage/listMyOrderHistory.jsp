@@ -14,7 +14,7 @@
 		var i_fixedSearch_period = document.createElement("input");
 		
 		i_fixedSearch_period.name = "fixedSearchPeriod";
-		i_fixedSearch_period.value = "fixedSearchPeriod";
+		i_fixedSearch_period.value = fixedSearchPeriod;
 		
 		formObj.appendChild(i_fixedSearch_period);
 		document.body.appendChild(formObj);
@@ -51,8 +51,8 @@
 			<tbody>
 				<tr>
 					<td>
-						<input type="radio" name="simple" checked/>간단조회 &nbsp;&nbsp;&nsbp;
-						<input type="radio" name="simple"/>일간 &nbsp;&nbsp;&nsbp;
+						<input type="radio" name="simple" checked/>간단조회 &nbsp;&nbsp;&nbsp;
+						<input type="radio" name="simple"/>일간 &nbsp;&nbsp;&nbsp;
 						<input type="radio" name="simple"/>월간
 					</td>
 				</tr>
@@ -97,7 +97,7 @@
 							</c:forEach>
 						</select>일 &nbsp;이전&nbsp;&nbsp;&nbsp;&nbsp; 
 						<a href="javascript:search_order_history('today')">
-							<img src="${contextPath}/resource/image/btn_search_one_day.jpg"/>
+							<img src="${contextPath}/resources/image/btn_search_one_day.jpg"/>
 						</a>
 						
 						<a href="javascript:search_order_history('one_week')">
@@ -108,7 +108,7 @@
 							<img src="${contextPath}/resources/image/btn_search_2_week.jpg"/>
 						</a>
 						
-						<a href="javascript:searh_order_history('one_month')">
+						<a href="javascript:search_order_history('one_month')">
 							<img src="${contextPath}/resources/image/btn_search_1_month.jpg"/>
 						</a>
 						
@@ -147,7 +147,7 @@
 								 &nbsp;~
 								 <input type="text" size="4" value="${endYear}"/>년
 								 <input type="text" size="4" value="${endMonth}"/>월
-								 <input type="text" size="4" value="${endDat}"/>일
+								 <input type="text" size="4" value="${endDay}"/>일
 					</td>
 				</tr>
 			</tbody>
@@ -169,7 +169,7 @@
 			</tr>
 			
 			<c:choose>
-				<c:when test="${empty myOrderHistory}">
+				<c:when test="${empty myOrderHistList}">
 					<tr>
 						<td colspan="8" class="fixed">
 							<strong>주문한 상품이 없습니다.</strong>
@@ -191,7 +191,7 @@
 										<strong>
 											<c:forEach var="item2" items="${myOrderHistoryList}" varStatus="j">
 												<c:if test="${item.order_id==item2.order_id}">
-													<a href="${contextPath/goods/goodsDetail.do?goods_id=${item2.goods_id}">${items2.goods_title}</a>
+													<a href="${contextPath}/goods/goodsDetail.do?goods_id=${item2.goods_id}">${items2.goods_title}</a>
 												</c:if>
 											</c:forEach>
 										</strong>
@@ -230,7 +230,7 @@
 									</td>
 									
 									<td>
-										<strong>${item.orderer_name0}</strong>
+										<strong>${item.orderer_name}</strong>
 									</td>
 									
 									<td>

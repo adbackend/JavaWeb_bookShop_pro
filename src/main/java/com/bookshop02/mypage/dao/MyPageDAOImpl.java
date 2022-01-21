@@ -46,7 +46,20 @@ public class MyPageDAOImpl implements MyPageDAO{
 		
 		return memberVO;
 	}
+	
 
+	@Override
+	public List<OrderVO> selectMyOrderHistoryList(Map dateMap) throws DataAccessException {
+		List<OrderVO> myOrderHistList = (List)sqlSession.selectList("mapper.mypage.selectMyOrderHistoryList", dateMap);
+		return myOrderHistList;
+	}
+	
+	@Override
+	public List selectMyOrderInfo(String order_id) throws DataAccessException {
+		
+		List myOrderList = (List)sqlSession.selectList("mapper.mypage.selectMyOrderInfo",order_id);
+		return myOrderList;
+	}
 	
 	
 	
