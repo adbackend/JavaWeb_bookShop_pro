@@ -85,6 +85,8 @@ public abstract class BaseController {
 	//검색기간 설정
 	protected String calcSearchPeriod(String fixedSearchPeriod) {
 		
+		System.out.println("검색기간 설정 넘어온 값은...?"+fixedSearchPeriod);
+		
 		String beginDate = null;
 		
 		String endDate = null;
@@ -100,7 +102,7 @@ public abstract class BaseController {
 		Calendar cal = Calendar.getInstance();
 		
 		endYear = Integer.toString(cal.get(Calendar.YEAR));
-		endMonth = df.format(cal.get(Calendar.MONTH+1));
+		endMonth = df.format(cal.get(Calendar.MONTH)+1);
 		endDay = df.format(cal.get(Calendar.DATE));
 		
 		endDate = endYear + "-" + endMonth + "-" + endDay;

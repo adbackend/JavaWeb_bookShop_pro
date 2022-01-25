@@ -153,11 +153,64 @@ function search_goods_list(fixedSearchPeriod){
 					</tr>
 				</c:when>
 				<c:otherwise>
-					
+					<c:forEach var="item" items="${newGoodsList}">
+						<tr>
+							<td>
+								<strong>${item.goods_id}</strong>
+							</td>
+							<td>
+								<a href="${contextPath}/admin/goods/modifyGoodsForm.do?goods_id=${item.goods_id}">${item.goods_title}</a>
+							</td>
+							<td>
+								<strong>${item.goods_writer}</strong>
+							</td>
+							<td>
+								<strong>${item.goods_publisher}</strong>
+							</td>
+							<td>
+								<strong>${item.goods_sales_price}</strong>
+							</td>
+							<td>
+								<strong>${item.goods_credate}</strong>
+							</td>
+							<td>
+								<c:set var="pub_date" value="${item.goods_published_date}"/>
+								<c:set var="arr" value="${fn:split(pub_date,' ')}"/>
+								<strong>
+									<c:out value="${arr[0]}"/>
+								</strong>
+							</td>
+						</tr>
+					</c:forEach>
 				</c:otherwise>
+				
 			</c:choose>
+			
+			<tr>
+				<td colspan="8" class="fixed">
+					<c:forEach var="page" begin="1" end="10" step="1">
+						<c:if test="${section>1 && page==1}">
+							<a href="${contextPath}/admin/goods/adminGoodsMain.do?chapter=${section-1}&pageNum=${(section-1)*10+1}">&nbsp;&nbsp;</a>
+						</c:if>
+						
+						<a href="${contextPath}/admin/goods/adminGoodsMain.do?chapter=${section}&pageNum=${page}">${(section-1)*10 +page}</a>
+						
+						<c:if test="${page==10}">
+							<a href="${contextPath}/admin/goods/adminGoodsMain.do?chapter=${section+1}&pageNum=${section*10+1}">&nbsp; next</a>
+						</c:if>
+					</c:forEach>
+				</td>
+			</tr>
 		</tbody>
 	</table>
+	<div class="clear"></div>
+	<br><br><br>
+	<h3>상품등록하기</h3>
+	<div id="search">
+		<form action="${contextPath}/admin/goods/addNewGoodsForm.do">
+			<input type="submit" value="상품등록하기"/>
+		</form>
+	</div>
 </body>
 </html>
 

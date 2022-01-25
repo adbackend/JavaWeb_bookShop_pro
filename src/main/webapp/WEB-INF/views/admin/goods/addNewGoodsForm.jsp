@@ -1,0 +1,230 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" isELIgnored="false"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript">
+	
+	var cnt = 0;
+	//파일추가
+	function fn_addFile(){
+		if(cnt==0){
+			$("#d_file").append("<br>" + "<input type='file' name='main_image' id='f_main_image'/>");
+		}else{
+			$("#d_file").append("<br>" + "<input type='file' name='detail_image" + cnt + "'/>");
+		}
+		cnt++;
+	}
+	
+	function fn_add_new_goods(obj){
+		fileName = $('#f_main_image').val();
+		
+		if(fileName != null && fileName != undefined){
+			obj.submit();
+		}else{
+			alert("메인 이미지는 반드시 첨부해야 합니다.");
+			return ;
+		}
+	}
+</script>
+</head>
+<body>
+	<form action="${contextPath}/admin/goods/addNewGoods.do" method="post" enctype="multipart/form-data">
+		<h1>새상품 등록창</h1>
+		<div class="tab_container">
+			<!-- 내용 들어가는 곳 -->
+			
+			<div class="tab_container" id="container">
+				<ul class="tabs">
+					<li><a href="#tab1">상품정보</a></li>
+					<li><a href="#tab2">상품목차</a></li>
+					<li><a href="#tab3">상품저자소개</a></li>
+					<li><a href="#tab4">상품소개</a></li>
+					<li><a href="#tab5">출판사 상품 평가</a></li>
+					<li><a href="#tab6">추천사</a></li>
+					<li><a href="#tab7">상품이미지</a></li>
+				</ul>
+				<div class="tab_container">
+					<div class="tab_content" id="tab1">
+						<table>
+							<tr>
+								<td width="200">제품분류</td>
+								<td width="500">
+									<select name="goods_sort">
+										<option value="컴퓨터와 인터넷" selected>컴퓨터와 인터넷</option>
+										<option value="디지털 기기" >디지털 기기</option>
+									</select>
+								</td>
+							</tr>
+							
+							<tr>
+								<td>제품이름</td>
+								<td><input type="text" name="goods_title" size="40"/></td>
+							</tr>
+							
+							<tr>
+								<td>저자</td>
+								<td><input type="text" name="goods_writer" size="40"/></td>
+							</tr>
+							
+							<tr>
+								<td>출판사</td>
+								<td><input type="text" name="goods_publisher" size="40"/></td>
+							</tr>
+							
+							<tr>
+								<td>제품정가</td>
+								<td><input type="text" name="goods_price" size="40"/></td>
+							</tr>
+							
+							<tr>
+								<td>제품판매가격</td>
+								<td><input type="text" name="goods_sales_price" size="40"/></td>
+							</tr>
+							
+							<tr>
+								<td>제품 구매 포인트</td>
+								<td><input type="text" name="goods_point" size="40"/></td>
+							</tr>
+							
+							<tr>
+								<td>제품출판일</td>
+								<td><input type="date" name="goods_published_date" size="40"/></td>
+							</tr>
+							
+							<tr>
+								<td>제품 총 페이지 수</td>
+								<td><input type="text" name="goods_total_page" size="40"/></td>
+							</tr>
+							
+							<tr>
+								<td>ISBN</td>
+								<td><input type="text" name="goods_isbn" size="40"/></td>
+							</tr>
+							
+							<tr>
+								<td>제품 배송비</td>
+								<td><input type="text" name="goods_delivery_price" size="40"/></td>
+							</tr>
+							
+							<tr>
+								<td>제품 도착 예정일</td>
+								<td><input type="date" name="goods_delivery_date" size="40"/></td>
+							</tr>
+							
+							<tr>
+								<td>제품종류</td>
+								<td>
+									<select name="goods_status">
+										<option value="bestseller">베스트셀러</option>
+										<option value="steadyseller">스테디셀러</option>
+										<option value="newbook" selected>신간</option>
+										<option value="on_sale">판매중</option>
+										<option value="buy_out">품절</option>
+										<option value="out_of_print">절판</option>
+									</select>
+								</td>
+							</tr>
+							
+							<tr>
+								<td>
+									<br>
+								</td>
+							</tr>
+														
+						</table>
+					</div>
+					<div class="tab_content" id="tab2">
+						<h4>책목차</h4>
+						<table>
+							<tr>
+								<td>책목차</td>
+								<td><textarea rows="100" cols="80" name="goods_contents_order"></textarea></td>
+							</tr>
+						</table>
+					</div>
+					
+					<div class="tab_content" id="tab3">
+						<h4>제품 저자 소개</h4>
+						<table>
+							<tr>
+								<td>제품 저자 소개</td>
+								<td><textarea rows="100" cols="80" name="goods_writer_intro"></textarea></td>
+							</tr>
+						</table>
+					</div>
+					
+					<div class="tab_content" id="tab4">
+						<h4>제품소개</h4>
+						<table>
+							<tr>
+								<td>제품소개</td>
+								<td><textarea rows="100" cols="80" name="goods_intro"></textarea></td>
+							</tr>
+						</table>
+					</div>
+					
+					<div class="tab_content" id="tab5">
+						<h4>출판사 제품 평가</h4>
+						<table>
+							<tr>
+								<td>출판사 제품평가</td>
+								<td><textarea rows="100" cols="80" name="goods_publisher_comment"></textarea></td>
+							</tr>
+						</table>
+					</div>
+					
+					<div class="tab_content" id="tab6">
+						<h4>추천사</h4>
+						<table>
+							<tr>
+								<td>추천사</td>
+								<td><textarea rows="10" cols="80" name="goods_recommendation"></textarea></td>
+							</tr>
+						</table>
+					</div>
+					
+					<div class="tab_content" id="tab7">
+						<h4>상품이미지</h4>
+						<table>
+							<tr>
+								<td align="right">이미지파일 첨부</td>
+								<td align="left"><input type="button" value="파일추가" onclick="fn_addFile()"/></td>
+								<td>
+									<div id="d_file"></div>
+								</td>
+							</tr>
+						</table>
+					</div>
+										
+				</div>
+			</div>
+			<div class="clear"></div>
+			
+			<center>
+				<table>
+					<tr>
+						<td align="center">
+							<input type="button" value="상품등록하기" onClick="fn_add_new_goods(this.form)"/>
+						</td>
+					</tr>
+				</table>
+			</center>
+			
+		</div>
+	</form>
+
+</body>
+
+
+
+
+
+
+
+
+
+
+
+

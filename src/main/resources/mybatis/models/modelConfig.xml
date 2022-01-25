@@ -9,7 +9,8 @@
     <typeAlias type="com.bookshop02.member.vo.MemberVO" alias="MemberVO"/>
     <typeAlias type="com.bookshop02.cart.vo.CartVO" alias="CartVO"/>
     <typeAlias type="com.bookshop02.order.vo.OrderVO" alias="OrderVO"/>
-
+	<typeAlias type="com.bookshop02.mypage.vo.MyPageVO" alias="mypageVO"/>
+	
   </typeAliases>
 </configuration>
 
