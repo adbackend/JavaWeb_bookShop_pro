@@ -9,8 +9,116 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script type="text/javascript">
+<c:choose>
+<c:when test="${not empty goods.goods_status}">
+<script>
 	window.onload = function(){
+// 		init();
+		selectBoxInit();
+	}
+	
+// 	function init(){
+// 		var frm_mod_goods = document.frm_mod_goods;
+// 		var h_goods_status = frm_mod_goods.h_goods_status;
+		
+// 		var goods_status = h_goods_status.value;
+// 		var select_goods_status = frm_mod_goods.goods_status;
+		
+// 		select_goods_status = goods_status;
+// 	}
+	
+	function selectBoxInit(){
+		
+		var goods_status = '${goods.goods_status}';
+		
+		var sel_goods_status = document.getElementById('goods_status');
+		
+		var optionStatus = sel_goods_status.options;
+		var val;
+		
+		for(var i=0; i<optionStatus.length; i++){
+			val = optionStatus[i].value;
+			
+			if(goods_status==val){
+				optionStatus[i].selected = true;
+				break;
+			}
+		}
+	}
+</script>
+</c:when>
+</c:choose>
+<script type="text/javascript">
+
+	function fn_modify_goods(goods_id, attribute){
+		
+		var frm_mod_goods = document.frm_mod_goods;
+		
+		var value="";
+		
+		if(attribute == 'goods_sort'){
+			value = frm_mod_goods.goods_sort.value;
+		}else if(attribute=='goods_title'){
+			value=frm_mod_goods.goods_title.value;
+		}else if(attribute=='goods_writer'){
+			value=frm_mod_goods.goods_writer.value;   
+		}else if(attribute=='goods_publisher'){
+			value=frm_mod_goods.goods_publisher.value;
+		}else if(attribute=='goods_price'){
+			value=frm_mod_goods.goods_price.value;
+		}else if(attribute=='goods_sales_price'){
+			value=frm_mod_goods.goods_sales_price.value;
+		}else if(attribute=='goods_point'){
+			value=frm_mod_goods.goods_point.value;
+		}else if(attribute=='goods_published_date'){
+			value=frm_mod_goods.goods_published_date.value;
+		}else if(attribute=='goods_page_total'){
+			value=frm_mod_goods.goods_page_total.value;
+		}else if(attribute=='goods_isbn'){
+			value=frm_mod_goods.goods_isbn.value;
+		}else if(attribute=='goods_delivery_price'){
+			value=frm_mod_goods.goods_delivery_price.value;
+		}else if(attribute=='goods_delivery_date'){
+			value=frm_mod_goods.goods_delivery_date.value;
+		}else if(attribute=='goods_status'){
+			value=frm_mod_goods.goods_status.value;
+		}else if(attribute=='goods_contents_order'){
+			value=frm_mod_goods.goods_contents_order.value;
+		}else if(attribute=='goods_writer_intro'){
+			value=frm_mod_goods.goods_writer_intro.value;
+		}else if(attribute=='goods_intro'){
+			value=frm_mod_goods.goods_intro.value;
+		}else if(attribute=='publisher_comment'){
+			value=frm_mod_goods.publisher_comment.value;
+		}else if(attribute=='recommendation'){
+			value=frm_mod_goods.recommendation.value;
+		}
+		
+		$.ajax({
+			type:"post",
+			asyn:false, //false인 경우 동기식으로 처리한다 
+						//동기는 디자인이 비동기보다 간단하고 직관적일수 있지만 결과가 주어질 때 까지 아무것도 못하고 대기해야하는 문제
+			url:"${contextPath}/admin/goods/modifyGoodsInfo.do",
+			data:{
+				goods_id:goods_id,
+				attribute:attribute,
+				value:value
+			},
+			success:function(data,textStatus){
+				if(data.trim()=='mod_success'){
+					alert('상품 정보를 수정했습니다.');
+				}else if(data.trim()=='failed'){
+					alert('다시 시도해 주세요');
+				}
+			},
+			error:function(data,textStatus){
+				alert('에러가 발생했습니다.'+data);
+			},
+			complete:function(data,textStatus){
+				//alert('작업 완료');
+			}
+		}); //end Ajax
+		
 		
 	}
 </script>
@@ -51,7 +159,7 @@
 								</select>
 							</td>
 							<td>
-								<input type="button" value="수정반영" onclick="fn_modify_goods('${goods.goods_id}','goods_sort')"/>
+								<input type="button" value="수정반영" onClick="fn_modify_goods('${goods.goods_id}','goods_sort')"/>
 							</td>
 						</tr>
 						
@@ -59,83 +167,83 @@
 						<tr>
 							<td>상품이름</td>
 							<td><input type="text" name="goods_title" value="${goods.goods_title}"/></td>
-							<td><input type="button" value="수정반영" onclick="fn_modify_goods('${goods.goods_id}','goods_title')"/></td>
+							<td><input type="button" value="수정반영" onClick="fn_modify_goods('${goods.goods_id}','goods_title')"/></td>
 						</tr>
 						
 						<tr>
 							<td>저자</td>
 							<td><input type="text" name="goods_writer" size="40" value="${goods.goods_writer}"/></td>
-							<td><input type="button" value="수정반영" onclick="fn_modify_goods('${goods.goods_id}','goods_writer')"/></td>
+							<td><input type="button" value="수정반영" onClick="fn_modify_goods('${goods.goods_id}','goods_writer')"/></td>
 						</tr>
 						
 						<tr>
 							<td>출판사</td>
 							<td><input type="text" name="goods_publisher" size="40" value="${goods.goods_publisher}"/></td>
-							<td><input type="button" value="수정반영" onclick="fn_modify_goods('${goods.goods_id}','goods_publisher')"/></td>
+							<td><input type="button" value="수정반영" onClick="fn_modify_goods('${goods.goods_id}','goods_publisher')"/></td>
 						</tr>
 						
 						<tr>
 							<td>상품정가</td>
 							<td><input type="text" name="goods_price" size="40" value="${goods.goods_price}"/></td>
-							<td><input type="button" value="수정반영" onclick="fn_modify_goods('${goods.goods_id}','goods_price')"/></td>
+							<td><input type="button" value="수정반영" onClick="fn_modify_goods('${goods.goods_id}','goods_price')"/></td>
 						</tr>
 						
 						<tr>
 							<td>상품판매가격</td>
 							<td><input type="text" name="goods_sales_price" size="40" value="${goods.goods_sales_price}"/></td>
-							<td><input type="button" value="수정반영" onclick="fn_modify_goods('${goods.goods_id}','goods_sales_price')"/></td>
+							<td><input type="button" value="수정반영" onClick="fn_modify_goods('${goods.goods_id}','goods_sales_price')"/></td>
 						</tr>
 						
 						<tr>
 							<td>상품 구매 포인트</td>
 							<td><input type="text" name="goods_point" size="40" value="${goods.goods_point}"/></td>
-							<td><input type="button" value="수정반영" onclick="fn_modify_goods('${goods.goods_id}','goods_point')"/></td>
+							<td><input type="button" value="수정반영" onClick="fn_modify_goods('${goods.goods_id}','goods_point')"/></td>
 						</tr>
 						
 						<tr>
 							<td>상품출판일</td>
 							<td><input type="date" name="goods_publisheed_date" value="${goods.goods_published_date}"/></td>
-							<td><input type="button" value="수정반영" onclick="fn_modify_goods('${goods.goods_id}','goods_published_date')"/></td>
+							<td><input type="button" value="수정반영" onClick="fn_modify_goods('${goods.goods_id}','goods_published_date')"/></td>
 						</tr>
 						
 						<tr>
 							<td>상품 총 페이지 수</td>
-							<td><input type="text" name="goods_total_page" size="40" value="${goods.goods_total_page}"/></td>
-							<td><input type="button" value="수정반영" onclick="fn_modify_goods('${goods.goods_id}','goods_total_page')"/></td>
+							<td><input type="text" name="goods_page_total" size="40" value="${goods.goods_page_total}"/></td>
+							<td><input type="button" value="수정반영" onClick="fn_modify_goods('${goods.goods_id}','goods_page_total')"/></td>
 						</tr>
 						
 						<tr>
 							<td>ISBN</td>
 							<td><input type="text" name="goods_isbn" size="40" value="${goods.goods_isbn}"/></td>
-							<td><input type="button" value="수정반영" onclick="fn_modify_goods('${goods.goods_id}','goods_isbn')"/></td>
+							<td><input type="button" value="수정반영" onClick="fn_modify_goods('${goods.goods_id}','goods_isbn')"/></td>
 						</tr>
 						
 						<tr>
 							<td>상품배송비</td>
 							<td><input type="text" name="goods_delivery_price" size="40" value="${goods.goods_delivery_price}"/></td>
-							<td><input type="button" value="수정반영" onclick="fn_modify_goods('${goods.goods_id}','goods_delivery_price')"/></td>
+							<td><input type="button" value="수정반영" onClick="fn_modify_goods('${goods.goods_id}','goods_delivery_price')"/></td>
 						</tr>
 						
 						<tr>
 							<td>상품 도착 예정일</td>
 							<td><input type="date" name="goods_delivery_date" value="${goods.goods_delivery_date}"/></td>
-							<td><input type="button" value="수정반영" onclick="fn_modify_goods('${goods.goods_id}','goods_delivery_date')"/></td>
+							<td><input type="button" value="수정반영" onClick="fn_modify_goods('${goods.goods_id}','goods_delivery_date')"/></td>
 						</tr>
 						
 						<tr>
 							<td>상품종류</td>
 							<td>
-								<select name="goods_status">
+								<select name="goods_status" id="goods_status">
 									<option value="bestseller">베스트셀러</option>
 									<option value="steadyseller">스테디셀러</option>
 									<option value="newboos">신간</option>
 									<option value="on_sale">판매중</option>
-									<option value="buy_out" selected>품절</option>
-									<option value="out_of_point">절판</option>
+									<option value="buy_out">품절</option>
+									<option value="out_of_print">절판</option>
 								</select>
 								<input type="hidden" id="h_goods_status" value="${goods.goods_status}"/>
 							</td>
-							<td><input type="button" value="수정반영" onclick="fn_modify_goods('${goods.goods_id}','goods_status')"/></td>
+							<td><input type="button" value="수정반영" onClick="fn_modify_goods('${goods.goods_id}','goods_status')"/></td>
 						</tr>
 						
 						<tr>

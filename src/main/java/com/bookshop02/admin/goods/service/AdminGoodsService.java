@@ -12,5 +12,7 @@ public interface AdminGoodsService {
 	public int addNewGoods(Map newGoodsMap) throws Exception; //상품등록
 	
 	public Map goodsDetail(int goods_id) throws Exception;
+	
+	public void modifyGoodsInfo(Map goodsMap) throws Exception; //수정
 
 }

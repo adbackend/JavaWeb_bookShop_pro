@@ -186,10 +186,27 @@ public class AdminGoodsControllerImpl extends BaseController implements AdminGoo
 	
 	//상품수정
 	@Override
-	public ResponseEntity modifyGoodsInfo(String goods_id, String mod_type, String value, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	@RequestMapping(value="/modifyGoodsInfo.do", method={RequestMethod.POST})
+	public ResponseEntity modifyGoodsInfo(@RequestParam String goods_id, 
+										  @RequestParam String attribute, 
+										  @RequestParam String value, 
+								HttpServletRequest request, HttpServletResponse response) throws Exception {
+	
+		Map<String, String> goodsMap = new HashMap<String, String>();
+		goodsMap.put("goods_id", goods_id);
+		goodsMap.put(attribute, value);
+		
+		adminGoodsService.modifyGoodsInfo(goodsMap);
+		
+		String message = null;
+		ResponseEntity resEntity = null;
+		HttpHeaders responseHeaders = new HttpHeaders();
+		
+		message = "mod_success";
+		
+		resEntity = new ResponseEntity(message, responseHeaders, HttpStatus.OK);
+		
+		return resEntity;
 	}
 	
 

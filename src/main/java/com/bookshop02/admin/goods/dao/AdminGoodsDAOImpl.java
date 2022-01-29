@@ -68,4 +68,10 @@ public class AdminGoodsDAOImpl implements AdminGoodsDAO{
 		return imageList;
 	}
 	
+	//상품수정
+	@Override
+	public void updateGoodsInfo(Map goodsMap) throws DataAccessException {
+		sqlSession.update("mapper.admin.goods.updateGoodsInfo",goodsMap);
+	}
+	
 }

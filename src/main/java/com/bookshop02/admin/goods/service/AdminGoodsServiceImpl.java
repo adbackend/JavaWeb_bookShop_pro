@@ -59,5 +59,11 @@ public class AdminGoodsServiceImpl implements AdminGoodsService{
 		
 		return goodsMap;
 	}
+	
+	//수정
+	@Override
+	public void modifyGoodsInfo(Map goodsMap) throws Exception {
+		adminGoodsDAO.updateGoodsInfo(goodsMap);
+	}
 
 }

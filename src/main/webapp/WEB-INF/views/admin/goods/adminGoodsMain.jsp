@@ -181,6 +181,7 @@ function search_goods_list(fixedSearchPeriod){
 								</strong>
 							</td>
 						</tr>
+						<input type="hidden" id="goods_sort" value="${item.goods_sort}"/>
 					</c:forEach>
 				</c:otherwise>
 				
