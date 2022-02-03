@@ -17,6 +17,7 @@
 ## [상품 상세페이지](https://github.com/adbackend/JavaWeb_bookShop_pro/blob/master/src/main/java/com/bookshop02/goods/controller/GoodsControllerImpl.java)<br>
 ![image](https://user-images.githubusercontent.com/94349690/148955366-c0c7551e-2da3-4d22-bf94-0f536e45e1e9.png)
 
+## [회원 마이페이지](https://github.com/adbackend/JavaWeb_bookShop_pro/blob/master/src/main/java/com/bookshop02/mypage/controller/MyPageControllerImpl.java)<br>
 ![image](https://user-images.githubusercontent.com/94349690/148955313-1bf9127b-5483-4dc5-82d3-d572c162767e.png)
 
 
