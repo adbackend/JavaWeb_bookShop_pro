@@ -65,5 +65,22 @@ public class AdminGoodsServiceImpl implements AdminGoodsService{
 	public void modifyGoodsInfo(Map goodsMap) throws Exception {
 		adminGoodsDAO.updateGoodsInfo(goodsMap);
 	}
+	
+	//이미지 수정
+	@Override
+	public void addNewGoodsImage(List<ImageFileVO> imageFileList) throws Exception {
+		adminGoodsDAO.insertGoodsImageFile(imageFileList);
+		
+	}
+	
+	//이미지 삭제
+	@Override
+	public void removeGoodsImageFile(int image_id) throws Exception {
+		adminGoodsDAO.deleteGoodsImage(image_id);
+	}
 
+	
 }
+
+
+

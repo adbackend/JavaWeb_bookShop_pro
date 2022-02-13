@@ -72,8 +72,8 @@
 			value=frm_mod_goods.goods_point.value;
 		}else if(attribute=='goods_published_date'){
 			value=frm_mod_goods.goods_published_date.value;
-		}else if(attribute=='goods_page_total'){
-			value=frm_mod_goods.goods_page_total.value;
+		}else if(attribute=='goods_total_page'){
+			value=frm_mod_goods.goods_total_page.value;
 		}else if(attribute=='goods_isbn'){
 			value=frm_mod_goods.goods_isbn.value;
 		}else if(attribute=='goods_delivery_price'){
@@ -119,8 +119,105 @@
 			}
 		}); //end Ajax
 		
-		
 	}
+	
+	//이미지 파일 미리보기
+	function readURL(input,preview){
+		
+		if(input.files && input.files[0]){
+			var reader = new FileReader();
+			
+			reader.onload = function (e){  //onload 읽기 동작이 성공적으로 완료되었을 때 발생
+				$('#'+preview).attr('src',e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]); //바이너리 파일을 Base64 Encode 문자열로 반환
+		}
+	}
+	
+	var cnt = 1;
+	function fn_addFile(){
+		$("#d_file").append("<br>"+"<input type='file' name='detail_image"+cnt+"' id='detail_image"+cnt+"' onchange=readURL(this,'previewImage"+cnt+"')/>");
+		$("#d_file").append("<img id='previewImage"+cnt+"' width=200 height=200 />");
+		$("#d_file").append("<input  type='button' value='추가'  onClick=addNewImageFile('detail_image"+cnt+"','${imageFileList[0].goods_id}','detail_image')  />");
+		cnt++;
+	}
+
+	
+			
+	function modifyImageFile(fileId, goods_id, image_id, filetype){
+		
+		alert(fileType+'파일파입은..?');
+		var form = $('#FILE_FORM')[0];
+		var formData = new FormData(form); //ajax로 폼 전송을 가능하게 해주는 FormData 객체
+		
+		formData.append('fileName',$('#'+fileId)[0].files[0]);
+		formData.append('goods_id',goods_id);
+		formData.append('image_id',image_id);
+		formData.append('filetype',filetype);
+		
+		$.ajax({
+			
+			url:"${contextPath}/admin/goods/addNewGoodsImage.do",
+			processData:false,
+			contentType:false,
+			data:formData,
+			type:'post',
+			success:function(result){
+				alert('이미지를 수정했습니다!');
+			}
+		});
+	}
+	
+	//onClick=addNewImageFile('detail_image"+cnt+"','${imageFileList[0].goods_id}','detail_image')  />");
+	//파일추가
+	function addNewImageFile(fileId, goods_id, fileType){
+		
+		var form = $('#FILE_FORM')[0];
+		var formData = new FormData(form);
+		
+		formData.append("uploadFile",$('#'+fileId)[0].files[0]);
+		formData.append("goods_id",goods_id);
+		formData.append("fileType",fileType);
+		
+		$.ajax({
+			
+			url:'${contextPath}/admin/goods/addNewGoodsImage.do',
+			processData:false,
+			contentType:false,
+			data:formData,
+			type:'post',
+			success:function(result){
+				alert('이미지를 수정했습니다');
+			}
+			
+		});
+	}
+	
+	//이미지 삭제
+	function deleteImageFile(goods_id, image_id, imageFileName,trId){
+		
+		var tr = document.getElementById(trId);
+		
+		$.ajax({
+			type:'post',
+			asyn:true, //false 인경우 동기식 처리
+			url:"${contextPath}/admin/goods/removeGoodsImage.do",
+			data:{goods_id:goods_id,
+				  image_id:image_id,
+				  imageFileName:imageFileName},
+			success:function(data,textStatus){
+				alert('이미지를 삭제했습니다.');
+				tr.style.display = 'none';
+			},
+			error:function(data,textStatus){
+				alert('에러가 발생했습니다.'+textStatus);
+			},
+			complete:function(data,textStatus){
+				//alert('작업을 완료 했습니다.');
+			}
+		});//end ajax
+	}
+	
 </script>
 </head>
 <body>
@@ -208,8 +305,8 @@
 						
 						<tr>
 							<td>상품 총 페이지 수</td>
-							<td><input type="text" name="goods_page_total" size="40" value="${goods.goods_page_total}"/></td>
-							<td><input type="button" value="수정반영" onClick="fn_modify_goods('${goods.goods_id}','goods_page_total')"/></td>
+							<td><input type="text" name="goods_total_page" size="40" value="${goods.goods_total_page}"/></td>
+							<td><input type="button" value="수정반영" onClick="fn_modify_goods('${goods.goods_id}','goods_total_page')"/></td>
 						</tr>
 						
 						<tr>
@@ -306,7 +403,7 @@
 						<tr>
 							<c:forEach var="item" items="${imageFileList}" varStatus="itemNum">
 								<c:choose>
-									<c:when test="${item.fileType=='main_image'}">
+									<c:when test="${item.filetype=='main_image'}">
 										<tr>
 											<td>메인이미지</td>
 											<td>
@@ -316,7 +413,8 @@
 											</td>
 											<td><img id="preview${itemNum.count}" width="200" height="200" src="${contextPath}/download.do?goods_id=${item.goods_id}&fileName=${item.fileName}"/></td>
 											<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-											<td><input type="button" value="수정" onclick="modifyImageFile('main_image','${item.goods_id}','${item.image_id}','${item.fileType}')"/></td>
+											
+											<td><input type="button" value="수정" onclick="modifyImageFile('main_image','${item.goods_id}','${item.image_id}','${item.filetype}')"/></td>
 										</tr>
 										<tr>
 											<td><br></td>
@@ -330,14 +428,14 @@
 											<input type="hidden" name="image_id" value="${item.image_id}"/>
 										</td>
 										<td>
-											<img id="preview${itemNum.count}" width="200" height="200" src="${contentPath}/download.?goods_id=${item.goods_id}&fileName=${item.fileName}"/>
+											<img id="preview${itemNum.count}" width="200" height="200" src="${contextPath}/download.do?goods_id=${item.goods_id}&fileName=${item.fileName}"/>
 										</td>
 										<td>
 											&nbsp;&nbsp;&nbsp;&nbsp;
 										</td>
 										<td>
-											<input type="button" value="수정" onClick="modifyImageFile('detail_image','${item.goods_id}','${item.image_id}','${item.fileType}')"/>
-											<input type="button" value="삭제" onclick="deleteImageFile('${item.goods_id}','${item.image_id}','${imageNum.count-1}')"/>
+											<input type="button" value="수정" onClick="modifyImageFile('detail_image','${item.goods_id}','${item.image_id}','${item.filetype}')"/>
+											<input type="button" value="삭제" onclick="deleteImageFile('${item.goods_id}','${item.image_id}','${item.fileName}','${itemNum.count-1}')"/>
 										</td>
 									</tr>
 									<tr>
@@ -356,13 +454,13 @@
 						</tr>
 						<tr>
 							<td align="center" colspan="2">
-								<input type="button" value="이미지파일 추가하기"/>
+								<input type="button" value="이미지파일 추가하기" onClick="fn_addFile()"/>
 							</td>
 						</tr>
 					</table>
 				</form>
 			</div>
-			
+			<div class="clear"></div>
 		</div>
 		
 	</form>

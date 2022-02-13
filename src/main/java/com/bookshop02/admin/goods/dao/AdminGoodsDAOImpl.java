@@ -74,4 +74,11 @@ public class AdminGoodsDAOImpl implements AdminGoodsDAO{
 		sqlSession.update("mapper.admin.goods.updateGoodsInfo",goodsMap);
 	}
 	
+	//이미지 삭제
+	@Override
+	public void deleteGoodsImage(int image_id) throws DataAccessException {
+		sqlSession.delete("mapper.admin.goods.deleteGoodsImage",image_id);
+		
+	}
+	
 }

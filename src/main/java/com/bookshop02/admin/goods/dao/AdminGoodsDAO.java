@@ -21,4 +21,6 @@ public interface AdminGoodsDAO {
 	public List selectGoodsImageFileList(int goods_id) throws DataAccessException;
 	
 	public void updateGoodsInfo(Map goodsMap) throws DataAccessException; //상품수정
+	
+	public void deleteGoodsImage(int image_id) throws DataAccessException; //이미지 삭제
 }

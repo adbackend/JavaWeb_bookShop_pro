@@ -1,11 +1,11 @@
 package com.bookshop02.goods.vo;
 
 public class ImageFileVO {
-	private int goods_id;
-	private int image_id;
-	private String fileName;
-	private String fileType;
-	private String reg_id;
+	private int goods_id; //상품번호
+	private int image_id; //이미지 번호
+	private String fileName; //이미지 파일명
+	private String filetype; //이미지 파일 종류
+	private String reg_id; //등록자 아이디
 
 	public ImageFileVO() {
 		super();
@@ -35,12 +35,12 @@ public class ImageFileVO {
 		this.fileName = fileName;
 	}
 
-	public String getFileType() {
-		return fileType;
+	public String getFiletype() {
+		return filetype;
 	}
 
-	public void setFileType(String fileType) {
-		this.fileType = fileType;
+	public void setFileType(String filetype) {
+		this.filetype = filetype;
 	}
 
 	public String getReg_id() {

@@ -38,7 +38,7 @@
 		<result property="fileName" column="fileName" />
 		<result property="reg_id" column="reg_id" />
 		<result property="image_id" column="image_id" />
-		<result property="fileType" column="fileType" />
+		<result property="filetype" column="filetype" />
 	</resultMap>
 
 	<resultMap id="orderGoodsResult" type="OrderVO">
@@ -169,13 +169,13 @@
 			INSERT INTO t_goods_detail_image ( image_id,
 											   goods_id,
 											   fileName,
-											   fileType,
+											   filetype,
 											   reg_id
 									) VALUES(
 											   #{image_id},
 											   #{goods_id},
 											   #{fileName},
-											   #{fileType},
+											   #{filetype},
 											   #{reg_id}	
 										)
 		]]>
@@ -229,8 +229,8 @@
 	      <if test="goods_point!='' and goods_point!=null">
 	        goods_point=#{goods_point},
 	      </if>
-	      <if test="goods_page_total!='' and goods_page_total!=null">
-	        goods_page_total=#{goods_page_total},
+	      <if test="goods_total_page!='' and goods_total_page!=null">
+	        goods_total_page=#{goods_total_page},
 	      </if>
 	      <if test="goods_isbn!='' and goods_isbn!=null">
 	        goods_isbn=#{goods_isbn},
@@ -263,6 +263,11 @@
 	    where goods_id=#{goods_id}
 	
 	</update>
+	
+	<delete id="deleteGoodsImage" parameterType="String">
+		delete from t_goods_detail_image 
+			where image_id=#{image_id}
+	</delete>
 
 
 
