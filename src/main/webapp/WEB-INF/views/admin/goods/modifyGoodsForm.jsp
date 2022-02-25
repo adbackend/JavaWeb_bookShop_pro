@@ -129,6 +129,7 @@
 			
 			reader.onload = function (e){  //onload 읽기 동작이 성공적으로 완료되었을 때 발생
 				$('#'+preview).attr('src',e.target.result);
+				
 			}
 			reader.readAsDataURL(input.files[0]); //바이너리 파일을 Base64 Encode 문자열로 반환
 		}
@@ -146,7 +147,7 @@
 			
 	function modifyImageFile(fileId, goods_id, image_id, filetype){
 		
-		alert(fileType+'파일파입은..?');
+		
 		var form = $('#FILE_FORM')[0];
 		var formData = new FormData(form); //ajax로 폼 전송을 가능하게 해주는 FormData 객체
 		
