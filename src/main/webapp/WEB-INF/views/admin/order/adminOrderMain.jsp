@@ -7,20 +7,65 @@
 <head>
 <meta charset="UTF-8">
 </head>
+<c:choose>
+<c:when test="${not empty order_goods_list}">
 <script>
 	window.onload = function(){
-		end_date = new Date();
 		
-		end_date = end_date.toISOString().slice(0,10);
-		bir = document.getElementById("end_date");
-		bir.value=end_date;
+		init();
+		
+// 		end_date = new Date();
+// 		end_date = end_date.toISOString().slice(0,10);
+// 		bir = document.getElementById("end_date");
+// 		bir.value=end_date;
+
 	}
 	
+	//화면이 표시되면서 각각의 주문건에 대한 배송 상태를 표시한다
+	function init(){
+		var frm_delivery_list = document.frm_delivery_list;
+		var h_delivery_state = frm_delivery_list.h_delivery_state;
+		var s_delivery_state = frm_delivery_list.s_delivery_state;
+		
+		if(h_delivery_state.length==undefined){
+			s_delivery_state.value = h_delivery_state.value; //조회된 주문 정보가 1건인 경우
+		}else{
+			for(var i=0; s_delivery_state.length; i++){
+				s_delivery_state[i].value = h_delivery_state[i].value; //조회된 주문 정보가 여러건인 경우
+			}
+		}
+	}
 	
-	
+</script>
+</c:when>
+</c:choose>
+
+<script>
+
 	function search_order_history(search_period){
 		
 		temp = calcPeriod(search_period);
+		
+		var date = temp.split(",");
+		beginDate = date[0];
+		endDate = date[1];
+		
+		var formObj = document.createElement("form");
+		var i_command = document.createElement("input");
+		var i_beginDate = document.createElement("input");
+		var i_endDate = document.createElement("input");
+		
+		i_beginDate.name = "beginDate";
+		i_beginDate.value = beginDate;
+		i_endDate.name = "endDate";
+		i_endDate.value = endDate;
+		
+		formObj.appendChild(i_beginDate);
+		formObj.appendChild(i_endDate);
+		document.body.appendChild(formObj);
+		formObj.method="get";
+		formObj.action="${contextPath}/admin/order/adminOrderMain.do";
+		formObj.submit();
 		
 	}
 	
@@ -39,15 +84,114 @@
 			beginYear = endYear;
 			beginMonth = endMonth;
 			beginDay = endDay;
-		}else(search_period=='one_week'){
+		}else if(search_period=='one_week'){
 			beginYear = dt.getFullYear();
 			beginMonth = dt.getMonth()+1;
 			dt.setDate(endDay-7);
 			beginDay = dt.getDate();
+		}else if(search_period=='two_week'){
+			beginYear = dt.getFullYear();
+			beginMonth = dt.getMonth()+1;
+			dt.setDate(endDay-14);
+		}else if(search_period=='one_month'){
+			beginYear = dt.getFullYear();
+			dt.setMonth(endMonth-1);
+			beginMonth = dt.getMonth();
+			beginDay = dt.getDate();
+		}else if(search_period=='two_month'){
+			beginYear = dt.getFullYear();
+			dt.setMonth(endMonth-2);
+			beginMonth = dt.getMonth();
+			beginDay = dt.getDate();
+		}else if(search_period=='three_month'){
+			beginYear = dt.getFullYear();
+			dt.setMonth(endMonth-3);
+			beginMonth = dt.getMonth();
+			beginDay = dt.getDate();
+		}else if(search_period=='four_month'){
+			beginYear = dt.getFullYear();
+			dt.setMonth(endMonth-4);
+			beginMonth = dt.getMonth();
+			beginDay = dt.getDate();
 		}
+		
+		if(beginMonth < 10){
+			beginMonth = '0'+beginMonth;
+			if(beginDay < 10){
+				beginDay = '0' + beginDay;
+			}
+		}
+		
+		if(endMonth < 10){
+			endMonth = '0'+endMonth;
+			if(endDay < 10){
+				endDay = '0'+endDay;
+			}
+		}
+		
+		endDay = endYear + '-' + endMonth + '-' + endDay;
+		beginDay = beginYear + '-' + beginMonth + '-' + beginDay;
+		
+		return beginDay + "," + endDay;
+	}
+	
+	//onclick="fn_modify_order_state('${item.order_id}','s_delivery_state${i.index}')"/>
+	//배송지 수정
+	function fn_modify_order_state(order_id, select_id){
+		console.log(select_id+'넌뭐니...?');
+		
+		var s_delivery_state = document.getElementById(select_id);
+		
+		var index = s_delivery_state.selectedIndex; //셀렉트의 선택된 옵션의 인덱스 값을 가져옵니다. 0부터 시작합니다.
+		var value = s_delivery_state[index].value;
+		console.log("value값은...?"+value);
+		
+		$.ajax({
+			type:"post",
+			asyn:false, //false인 경우 동기식으로 처리한다 
+			url:"${contextPath}/admin/order/modifyDeliveryState.do",
+			data:{
+				order_id:order_id,
+				"delivery_state":value
+			},
+			success:function(data, textStatus){
+				if(data.trim()=='mod_success'){
+					alert("주문 정보를 수정했습니다.");
+					location.href="${contextPath}/admin/order/adminOrderMain.do";
+				}else if(data.trim()=='failed'){
+					alert("다시 시도해 주세요");
+				}
+			},
+			error:function(data,textStatus){
+				alert("에러가 발생했습니다."+data);
+			},
+			complete:function(data,textStatus){
+				//alert("작업완료");
+			}
+		}); //end Ajax
+	}
+	
+	//주문상세
+	function fn_detail_order(order_id){
+		
+		var frm_delivery_list = document.frm_delivery_list;
+		
+		var formObj = document.createElement("form");
+		var i_order_id = document.createElement("input");
+		
+		i_order_id.name = "order_id";
+		i_order_id.value = order_id;
+		
+		formObj.appendChild(i_order_id);
+		document.body.appendBodyChild(formOjb);
+		
+		formObj.method="post";
+		formObj.action="${contextPath}/admin/order/orderDetail.do";
+		formObj.submit();
 	}
 	
 </script>
+
 <body>
 	<h3>주문조회</h3>
 	<form name="frm_delivery_list" action="${contextPath}/amdin/admin.do" method="post">
@@ -127,9 +271,108 @@
 				
 				<tr>
 					<td>
-						조회기간:
-						<input type="date" name="start_date" id="start_date"/>
-						<input type="date" name="end_date" id="end_date" value="${end_date}"/>
+						조회 기간:
+					<select name="beginYear" disabled>
+					 <c:forEach   var="i" begin="0" end="5">
+					      <c:choose>
+					        <c:when test="${beginYear==beginYear-i }">
+					          <option value="${beginYear-i }" selected>${beginYear-i  }</option>
+					        </c:when>
+					        <c:otherwise>
+					          <option value="${beginYear-i }">${beginYear-i }</option>
+					        </c:otherwise>
+					      </c:choose>
+					    </c:forEach>
+					</select>년 
+					<select name="beginMonth" disabled >
+						 <c:forEach   var="i" begin="1" end="12">
+					      <c:choose>
+					        <c:when test="${beginMonth==i }">
+					          <option value="${i }"  selected>${i }</option>
+					        </c:when>
+					        <c:otherwise>
+					          <c:choose>
+					            <c:when test="${i <10 }">
+					              <option value="0${i }">0${i }</option>
+					            </c:when>
+					            <c:otherwise>
+					            <option value="${i }">${i }</option>
+					            </c:otherwise>
+					          </c:choose>
+					        </c:otherwise>
+					      </c:choose>
+					    </c:forEach>					
+					</select>월
+					 <select name="beginDay" disabled >
+					  <c:forEach   var="i" begin="1" end="31">
+					      <c:choose>
+					        <c:when test="${beginDay==i }">
+					          <option value="${i }"  selected>${i }</option>
+					        </c:when>
+					        <c:otherwise>
+					          <c:choose>
+					            <c:when test="${i <10 }">
+					              <option value="0${i }">0${i }</option>
+					            </c:when>
+					            <c:otherwise>
+					            <option value="${i }">${i }</option>
+					            </c:otherwise>
+					          </c:choose>
+					        </c:otherwise>
+					      </c:choose>
+					    </c:forEach>	
+					</select>일  &nbsp; ~
+					
+					<select name="endYear" disabled >
+					 <c:forEach   var="i" begin="0" end="5">
+					      <c:choose>
+					        <c:when test="${endYear==endYear-i }">
+					          <option value="${2016-i }" selected>${2016-i  }</option>
+					        </c:when>
+					        <c:otherwise>
+					          <option value="${2016-i }">${2016-i }</option>
+					        </c:otherwise>
+					      </c:choose>
+					    </c:forEach>
+					</select>년 
+					<select name="endMonth" disabled >
+						 <c:forEach   var="i" begin="1" end="12">
+					      <c:choose>
+					        <c:when test="${endMonth==i }">
+					          <option value="${i }"  selected>${i }</option>
+					        </c:when>
+					        <c:otherwise>
+					          <c:choose>
+					            <c:when test="${i <10 }">
+					              <option value="0${i }">0${i }</option>
+					            </c:when>
+					            <c:otherwise>
+					            <option value="${i }">${i }</option>
+					            </c:otherwise>
+					          </c:choose>
+					        </c:otherwise>
+					      </c:choose>
+					    </c:forEach>					
+					</select>월
+					 <select name="endDay" disabled >
+					  <c:forEach   var="i" begin="1" end="31">
+					      <c:choose>
+					        <c:when test="${endDay==i }">
+					          <option value="${i }"  selected>${i }</option>
+					        </c:when>
+					        <c:otherwise>
+					          <c:choose>
+					            <c:when test="${i <10 }">
+					              <option value="0${i }">0${i }</option>
+					            </c:when>
+					            <c:otherwise>
+					            <option value="${i }">${i }</option>
+					            </c:otherwise>
+					          </c:choose>
+					        </c:otherwise>
+					      </c:choose>
+					    </c:forEach>	
+					</select>
 					</td>
 				</tr>
 				
@@ -153,7 +396,7 @@
 		
 		<table class="list_view">
 			<tbody align="center">
-				<tr style="background:#33ff00">
+				<tr style="background:#7199a8">
 					<td class="fixed">주문번호</td>				
 					<td class="fixed">주문일자</td>				
 					<td>주문내역</td>				
@@ -171,13 +414,13 @@
 					<c:otherwise>
 						<c:forEach var="item" items="${newOrderList}" varStatus="i">
 							<c:choose>
-								<c:when test="${item.order_id} != pre_order_id">
+								<c:when test="${item.order_id != pre_order_id}">
 									<c:choose>
 										<c:when test="${item.delivery_state=='delivery_prepared'}">
-											<tr bgcolor="ligthgreen">
+											<tr bgcolor="#9185de">
 										</c:when>
 										<c:when test="${item.delivery_state=='finished_delivering'}">
-											<tr bgcolor="lightgray">
+											<tr bgcolor="#7199a8">
 										</c:when>
 										<c:otherwise>
 											<tr bgcolor="orange">
@@ -209,16 +452,74 @@
 										
 										<td width="10%">
 											<select name="s_delivery_state${i.index}" id="s_delivery_state${i.index}">
+												<c:choose>
+													<c:when test="${item.delivery_state=='delivery_prepared'}">
+														<option value="delivery_prepared" selected>배송준비중</option>
+														<option value="delivering">배송중</option>
+														<option value="finished_delivering">배송완료</option>
+														<option value="cancel_order">주문취소</option>
+														<option value="returning_goods">반품</option>
+													</c:when>
+													<c:when test="${item.delivery_state=='delivering'}">
+														<option value="delivery_prepared">배송준비중</option>
+														<option value="delivering" selected>배송중</option>
+														<option value="finished_delivering">배송완료</option>
+														<option value="cancel_order">주문취소</option>
+														<option value="returning_goods">반품</option>
+													</c:when>
+													<c:when test="${item.delivery_state=='finished_delivering'}">
+														<option value="delivery_prepared">배송준비중</option>
+														<option value="delivering">배송중</option>
+														<option value="finished_delivering" selected>배송완료</option>
+														<option value="cancel_order">주문취소</option>
+														<option value="returning_goods">반품</option>
+													</c:when>
+													<c:when test="${item.delivery_state=='cancel_order' }">
+													     <option  value="delivery_prepared" >배송준비중</option>
+													     <option  value="delivering"  >배송중</option>
+													     <option  value="finished_delivering" >배송완료</option>
+													     <option  value="cancel_order" selected>주문취소</option>
+													     <option  value="returning_goods">반품</option>
+				  									</c:when>
+												    <c:when test="${item.delivery_state=='returning_goods' }">
+												      	 <option  value="delivery_prepared" >배송준비중</option>
+												     	 <option  value="delivering"  >배송중</option>
+												     	 <option  value="finished_delivering" >배송완료</option>
+												     	 <option  value="cancel_order" >주문취소</option>
+												     	 <option  value="returning_goods" selected>반품</option>
+												   </c:when>
+												</c:choose>
 											</select>
+										</td>
+										
+										<td width="10%">
+											<input type="button" value="배송수정" onclick="fn_modify_order_state('${item.order_id}','s_delivery_state${i.index}')"/>
 										</td>
 								</c:when>
 							</c:choose>
+							<c:set var="pre_order_id" value="${item.order_id}"/>
 						</c:forEach>
 					</c:otherwise>
 				</c:choose>
+					<tr>
+						<td colspan="8" class="fixed">
+							<c:forEach var="page" begin="1" end="10" step="1">
+								<c:if test="${section>1 && page==1}">
+									<a href="${contextPath}/admin/order/adminOrderMain.do?chapter=${section-1}&pageNum=${(section-1)*10+1}">&nbsp;&nbsp;</a>
+								</c:if>
+									<a href="${contextPath}/admin/order/adminOrderMain.do?chapter=${section}&pageNum=${page}">${(section-1)*10 + page}</a>
+								<c:if test="${page==10}">
+									<a href="${contextPath}/admin/order/adminOrderMain.do?chapter=${section+1}&pageNum=${section*10+1}">&nbsp; next</a>
+								</c:if>
+									
+							</c:forEach>
+						</td>
+					</tr>
+				
 			</tbody>
 		</table>
 	</form>
+	<div class="clear"></div>
 </body>
 </html>
 
